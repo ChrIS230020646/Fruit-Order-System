@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header UI</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* 增加背景色 */
+        }
+        header {
+            background-color: #4CAF50; /* 主色 */
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加陰影 */
+        }
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px; /* 圓角 */
+            transition: background 0.3s;
+        }
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        .search-container input {
+            padding: 8px;
+            border: 1px solid #ccc; /* 邊框 */
+            border-radius: 5px;
+            margin-right: 5px; /* 右邊距 */
+        }
+        .search-container button {
+            padding: 8px 12px;
+            background-color: white;
+            color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-container button:hover {
+            background-color: #ddd;
+        }
+        @media (max-width: 600px) {
+            nav {
+                display: none; /* 隱藏小屏幕的導航 */
+            }
+            .menu-toggle {
+                display: block;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">我的網站</div>
+        <nav>
+            <a href="submit.html">submit</a>
+            <a href="edit.html">edit</a>
+            <a href="get.html">get</a>
+            <a href="remove.html">聯繫我們</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" placeholder="搜索...">
+            <button>搜索</button>
+        </div>
+    </header>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <body>
+            <div id="header"></div>
+                <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+            });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* 背景色 */
+            padding: 20px;
+        }
+        form {
+            background-color: white; /* 表單背景 */
+            border-radius: 8px; /* 圓角 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 陰影 */
+            padding: 20px;
+            max-width: 400px; /* 最大寬度 */
+            margin: auto; /* 居中 */
+        }
+        label {
+            display: block;
+            margin-bottom: 8px; /* 標籤下方間距 */
+            font-weight: bold; /* 加粗 */
+        }
+        input[type="text"],
+        input[type="email"] {
+            width: 100%; /* 寬度100% */
+            padding: 10px; /* 內邊距 */
+            border: 1px solid #ccc; /* 邊框 */
+            border-radius: 5px; /* 圓角 */
+            margin-bottom: 15px; /* 下方間距 */
+            box-sizing: border-box; /* 包括內邊距和邊框 */
+        }
+        input[type="submit"] {
+            background-color: #4CAF50; /* 按鈕顏色 */
+            color: white; /* 按鈕文字顏色 */
+            border: none; /* 無邊框 */
+            padding: 10px; /* 按鈕內邊距 */
+            border-radius: 5px; /* 按鈕圓角 */
+            cursor: pointer; /* 鼠標指標 */
+            font-size: 16px; /* 字體大小 */
+            transition: background 0.3s; /* 背景變化過渡 */
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* 懸停顏色 */
+        }
+        button {
+  font: inherit;
+  background-color: #f0f0f0;
+  border: 0;
+  color: #242424;
+  border-radius: 0.5em;
+  font-size: 1.35rem;
+  padding: 0.375em 1em;
+  font-weight: 600;
+  text-shadow: 0 0.0625em 0 #fff;
+  box-shadow: inset 0 0.0625em 0 0 #f4f4f4, 0 0.0625em 0 0 #efefef,
+    0 0.125em 0 0 #ececec, 0 0.25em 0 0 #e0e0e0, 0 0.3125em 0 0 #dedede,
+    0 0.375em 0 0 #dcdcdc, 0 0.425em 0 0 #cacaca, 0 0.425em 0.5em 0 #cecece;
+  transition: 0.15s ease;
+  cursor: pointer;
+}
+button:active {
+  translate: 0 0.225em;
+  box-shadow: inset 0 0.03em 0 0 #f4f4f4, 0 0.03em 0 0 #efefef,
+    0 0.0625em 0 0 #ececec, 0 0.125em 0 0 #e0e0e0, 0 0.125em 0 0 #dedede,
+    0 0.2em 0 0 #dcdcdc, 0 0.225em 0 0 #cacaca, 0 0.225em 0.375em 0 #cecece;
+}
+
+    </style>
+<script>
+    fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header').innerHTML = data;
+        });
+</script>
+ <br><br>
+   <form action="/submit" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <button type="submit" value="Submit">Submit</button>
+        </form>
+        </body>
+        </head>

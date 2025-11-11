@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <div class="header-container" id="header"></div>
+
+
+
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+            });
+    </script>
+
+        <form action="/submit" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+
+         <form action="/get" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+
+        <form action="/edit" method="post">
+            <label for="editName">Name:</label>
+            <input type="text" id="editName" name="editName"><br><br>
+            <label for="editEmail">New Email:</label>
+            <input type="email" id="editEmail" name="editEmail"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+
+        <form action="/remove" method="post">
+            <label for="removeName">Name:</label>
+            <input type="text" id="removeName" name="removeName"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+        <form action="/save" method="post">
+            <label for="data">Data to Save:</label>
+            <input type="submit" value="Submit">
+        </form>
+          <form action="/Avg" method="post">
+            <label for="data">Avg:</label>
+            <input type="submit" value="Submit">
+        </form>
+        </form>
+          <form action="/sum" method="post">
+            <label for="data">sum:</label>
+            <input type="submit" value="Submit">
+        </form>
+    </head>
+</html>

@@ -1,0 +1,23 @@
+<html>
+    <head>
+      <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+            });
+    </script>
+        <body>
+            <h1>Get Page</h1>
+            <div id="header"></div>
+            <form action="/get" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name"><br><br>
+                <input type="submit" value="Submit">
+        </form>
+        </body>
+    </head>
+</html>
