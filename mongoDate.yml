@@ -1,0 +1,196 @@
+// 國家集合
+// use orderDB
+
+db.createCollection("countries")
+db.countries.insertMany([
+  { _id: 1, name: "United States" },
+  { _id: 2, name: "China" },
+  { _id: 3, name: "Japan" },
+  { _id: 4, name: "Australia" },
+  { _id: 5, name: "Spain" }
+])
+
+// 城市集合
+db.createCollection("cities")
+db.cities.insertMany([
+  // US cities
+  { _id: 101, countryId: 1, name: "New York" },
+  { _id: 102, countryId: 1, name: "Los Angeles" },
+  { _id: 103, countryId: 1, name: "Chicago" },
+  // China cities
+  { _id: 201, countryId: 2, name: "Beijing" },
+  { _id: 202, countryId: 2, name: "Shanghai" },
+  { _id: 203, countryId: 2, name: "Guangzhou" },
+  // Japan cities
+  { _id: 301, countryId: 3, name: "Tokyo" },
+  { _id: 302, countryId: 3, name: "Osaka" },
+  // Australia cities
+  { _id: 401, countryId: 4, name: "Sydney" },
+  { _id: 402, countryId: 4, name: "Melbourne" },
+  // Spain cities
+  { _id: 501, countryId: 5, name: "Madrid" },
+  { _id: 502, countryId: 5, name: "Barcelona" }
+])
+
+// 位置集合
+db.createCollection("locations")
+db.locations.insertMany([
+  // Central Warehouses (one per country)
+  { _id: 1001, cityId: 101, address: "123 Main St, New York", type: "CentralWarehouse" },
+  { _id: 2001, cityId: 201, address: "456 Central Ave, Beijing", type: "Warehouse" },
+  { _id: 3001, cityId: 301, address: "789 Tokyo St, Tokyo", type: "Warehouse" },
+  { _id: 4001, cityId: 401, address: "321 Sydney Rd, Sydney", type: "Warehouse" },
+  { _id: 5001, cityId: 501, address: "654 Madrid Blvd, Madrid", type: "Warehouse" },
+
+  // Regional Warehouses
+  { _id: 1002, cityId: 102, address: "234 Warehouse Dr, Los Angeles", type: "Warehouse" },
+  { _id: 1003, cityId: 103, address: "345 Storage Ln, Chicago", type: "Warehouse" },
+  { _id: 2002, cityId: 202, address: "567 Shanghai Warehouse, Shanghai", type: "Warehouse" },
+  { _id: 3002, cityId: 302, address: "890 Osaka Storage, Osaka", type: "Warehouse" },
+  { _id: 4002, cityId: 402, address: "432 Melbourne Warehouse, Melbourne", type: "Warehouse" },
+  { _id: 5002, cityId: 502, address: "765 Barcelona Storage, Barcelona", type: "Warehouse" },
+
+  // Shops
+  { _id: 1101, cityId: 101, address: "11 Shop St, New York", type: "Shop" },
+  { _id: 1102, cityId: 101, address: "22 Retail Ave, New York", type: "Shop" },
+  { _id: 1201, cityId: 102, address: "33 Fruit Ln, Los Angeles", type: "Shop" },
+  { _id: 1202, cityId: 102, address: "44 Market St, Los Angeles", type: "Shop" },
+  { _id: 1301, cityId: 103, address: "55 Grocery Rd, Chicago", type: "Shop" },
+  { _id: 2101, cityId: 201, address: "66 Beijing Market, Beijing", type: "Shop" },
+  { _id: 2102, cityId: 201, address: "77 Fruit Stand, Beijing", type: "Shop" },
+  { _id: 2201, cityId: 202, address: "88 Shanghai Shop, Shanghai", type: "Shop" },
+  { _id: 3101, cityId: 301, address: "99 Tokyo Fruit, Tokyo", type: "Shop" },
+  { _id: 3201, cityId: 302, address: "111 Osaka Market, Osaka", type: "Shop" },
+  { _id: 4101, cityId: 401, address: "222 Sydney Grocery, Sydney", type: "Shop" },
+  { _id: 4201, cityId: 402, address: "333 Melbourne Fruit, Melbourne", type: "Shop" },
+  { _id: 5101, cityId: 501, address: "444 Madrid Market, Madrid", type: "Shop" },
+  { _id: 5201, cityId: 502, address: "555 Barcelona Shop, Barcelona", type: "Shop" }
+])
+
+// 水果集合
+db.createCollection("fruits")
+db.fruits.insertMany([
+  { _id: 1, name: "Apple", originCountryId: 1, price: 1.20, imageURL: "apple.jpg" },
+  { _id: 2, name: "Banana", originCountryId: 4, price: 0.80, imageURL: "banana.jpg" },
+  { _id: 3, name: "Orange", originCountryId: 5, price: 1.00, imageURL: "orange.jpg" },
+  { _id: 4, name: "Grape", originCountryId: 2, price: 2.50, imageURL: "grape.jpg" },
+  { _id: 5, name: "Peach", originCountryId: 2, price: 1.80, imageURL: "peach.jpg" },
+  { _id: 6, name: "Mango", originCountryId: 4, price: 2.20, imageURL: "mango.jpg" },
+  { _id: 7, name: "Pineapple", originCountryId: 1, price: 2.00, imageURL: "pineapple.jpg" },
+  { _id: 8, name: "Strawberry", originCountryId: 5, price: 3.00, imageURL: "strawberry.jpg" },
+  { _id: 9, name: "Watermelon", originCountryId: 2, price: 4.50, imageURL: "watermelon.jpg" },
+  { _id: 10, name: "Kiwi", originCountryId: 4, price: 1.50, imageURL: "kiwi.jpg" }
+])
+
+// 員工集合
+db.createCollection("staff")
+db.staff.insertMany([
+  // Managers at central warehouses
+  { _id: 1, name: "John Smith", email: "john@us.com", password: "password1", phone: "1234567890", job: "manager", locationId: 1001, status: true },
+  { _id: 2, name: "Li Wei", email: "li@china.com", password: "password2", phone: "2345678901", job: "manager", locationId: 2001, status: true },
+  { _id: 3, name: "Tanaka Hiroshi", email: "tanaka@jp.com", password: "password3", phone: "3456789012", job: "manager", locationId: 3001, status: true },
+  { _id: 4, name: "Emma Wilson", email: "emma@au.com", password: "password4", phone: "4567890123", job: "manager", locationId: 4001, status: true },
+  { _id: 5, name: "Carlos Garcia", email: "carlos@es.com", password: "password5", phone: "5678901234", job: "manager", locationId: 5001, status: true },
+
+  // Warehouse staff
+  { _id: 6, name: "Mike Johnson", email: "mike@us.com", password: "password6", phone: "6789012345", job: "warehouse", locationId: 1002, status: true },
+  { _id: 7, name: "Chen Yu", email: "chen@china.com", password: "password7", phone: "7890123456", job: "warehouse", locationId: 2002, status: false },
+  { _id: 8, name: "Sato Kenji", email: "sato@jp.com", password: "password8", phone: "8901234567", job: "warehouse", locationId: 3002, status: true },
+  { _id: 9, name: "Liam Brown", email: "liam@au.com", password: "password9", phone: "9012345678", job: "warehouse", locationId: 4002, status: true },
+  { _id: 10, name: "Maria Lopez", email: "maria@es.com", password: "password10", phone: "0123456789", job: "warehouse", locationId: 5002, status: true },
+  { _id: 16, name: "Mike AAA", email: "MikeJohn@aa.com", password: "password11", phone: "6789012345", job: "warehouse", locationId: 1001, status: true },
+
+  // Shop staff
+  { _id: 11, name: "Sarah Williams", email: "sarah@us.com", password: "password11", phone: "1122334455", job: "shop", locationId: 1101, status: false },
+  { _id: 12, name: "David Lee", email: "david@us.com", password: "password12", phone: "2233445566", job: "shop", locationId: 1102, status: true },
+  { _id: 13, name: "Zhang Min", email: "zhang@china.com", password: "password13", phone: "3344556677", job: "shop", locationId: 2101, status: true },
+  { _id: 14, name: "Yamada Taro", email: "yamada@jp.com", password: "password14", phone: "4455667788", job: "shop", locationId: 3101, status: true },
+  { _id: 15, name: "Olivia Taylor", email: "olivia@au.com", password: "password15", phone: "5566778899", job: "shop", locationId: 4101, status: false }
+])
+
+// 庫存集合 - 使用嵌入方式存儲庫存記錄
+db.createCollection("inventory")
+db.inventory.insertMany([
+  // Central warehouses have large quantities
+  { _id: 1, fruitId: 1, locationId: 1001, quantity: 1000 },
+  { _id: 2, fruitId: 7, locationId: 1001, quantity: 800 },
+  { _id: 3, fruitId: 4, locationId: 2001, quantity: 1200 },
+  { _id: 4, fruitId: 5, locationId: 2001, quantity: 900 },
+  { _id: 5, fruitId: 9, locationId: 2001, quantity: 600 },
+  { _id: 6, fruitId: 1, locationId: 3001, quantity: 500 },
+  { _id: 7, fruitId: 2, locationId: 3001, quantity: 700 },
+  { _id: 8, fruitId: 3, locationId: 3001, quantity: 600 },
+  { _id: 9, fruitId: 2, locationId: 4001, quantity: 1100 },
+  { _id: 10, fruitId: 6, locationId: 4001, quantity: 800 },
+  { _id: 11, fruitId: 10, locationId: 4001, quantity: 700 },
+  { _id: 12, fruitId: 3, locationId: 5001, quantity: 900 },
+  { _id: 13, fruitId: 8, locationId: 5001, quantity: 500 },
+
+  // Regional warehouses have medium quantities
+  { _id: 14, fruitId: 1, locationId: 1002, quantity: 200 },
+  { _id: 15, fruitId: 7, locationId: 1002, quantity: 150 },
+  { _id: 16, fruitId: 4, locationId: 2002, quantity: 300 },
+  { _id: 17, fruitId: 5, locationId: 2002, quantity: 200 },
+  { _id: 18, fruitId: 2, locationId: 3002, quantity: 250 },
+  { _id: 19, fruitId: 3, locationId: 3002, quantity: 200 },
+  { _id: 20, fruitId: 6, locationId: 4002, quantity: 180 },
+  { _id: 21, fruitId: 10, locationId: 4002, quantity: 150 },
+  { _id: 22, fruitId: 3, locationId: 5002, quantity: 220 },
+  { _id: 23, fruitId: 8, locationId: 5002, quantity: 120 },
+
+  // Shops have small quantities
+  { _id: 24, fruitId: 1, locationId: 1101, quantity: 50 },
+  { _id: 25, fruitId: 7, locationId: 1101, quantity: 30 },
+  { _id: 26, fruitId: 1, locationId: 1102, quantity: 40 },
+  { _id: 27, fruitId: 7, locationId: 1102, quantity: 25 },
+  { _id: 28, fruitId: 4, locationId: 2101, quantity: 60 },
+  { _id: 29, fruitId: 5, locationId: 2101, quantity: 45 },
+  { _id: 30, fruitId: 2, locationId: 3101, quantity: 70 },
+  { _id: 31, fruitId: 3, locationId: 3101, quantity: 50 },
+  { _id: 32, fruitId: 6, locationId: 4101, quantity: 40 },
+  { _id: 33, fruitId: 10, locationId: 4101, quantity: 35 },
+  { _id: 34, fruitId: 3, locationId: 5101, quantity: 55 },
+  { _id: 35, fruitId: 8, locationId: 5101, quantity: 30 }
+])
+
+// 預訂集合
+db.createCollection("reservations")
+db.reservations.insertMany([
+  { _id: 1, shopId: 1101, sourceWarehouseId: 1001, fruitId: 1, quantity: 100, startDate: ISODate("2023-01-01"), endDate: ISODate("2023-01-05"), status: "Delivered" },
+  { _id: 2, shopId: 1101, sourceWarehouseId: 1001, fruitId: 7, quantity: 50, startDate: ISODate("2023-01-10"), endDate: ISODate("2023-01-15"), status: "Delivered" },
+  { _id: 3, shopId: 2101, sourceWarehouseId: 2001, fruitId: 4, quantity: 80, startDate: ISODate("2023-01-05"), endDate: ISODate("2023-01-10"), status: "Delivered" },
+  { _id: 4, shopId: 2101, sourceWarehouseId: 2001, fruitId: 5, quantity: 60, startDate: ISODate("2023-01-15"), endDate: ISODate("2023-01-20"), status: "Approved" },
+  { _id: 5, shopId: 3101, sourceWarehouseId: 3001, fruitId: 2, quantity: 70, startDate: ISODate("2023-01-08"), endDate: ISODate("2023-01-12"), status: "Delivered" },
+  { _id: 6, shopId: 3101, sourceWarehouseId: 3001, fruitId: 3, quantity: 50, startDate: ISODate("2023-01-18"), endDate: ISODate("2023-01-22"), status: "Pending" },
+  { _id: 7, shopId: 4101, sourceWarehouseId: 4001, fruitId: 6, quantity: 40, startDate: ISODate("2023-01-12"), endDate: ISODate("2023-01-17"), status: "Delivered" },
+  { _id: 8, shopId: 4101, sourceWarehouseId: 4001, fruitId: 10, quantity: 30, startDate: ISODate("2023-01-20"), endDate: ISODate("2023-01-25"), status: "Approved" },
+  { _id: 9, shopId: 5101, sourceWarehouseId: 5001, fruitId: 8, quantity: 25, startDate: ISODate("2023-01-15"), endDate: ISODate("2023-01-20"), status: "Delivered" }
+])
+
+// 借貨集合
+db.createCollection("borrows")
+db.borrows.insertMany([
+  { _id: 1, fromShopId: 1101, toShopId: 1102, fruitId: 1, quantity: 10, borrowDate: ISODate("2023-01-03"), returnDate: ISODate("2023-01-10"), status: true },
+  { _id: 2, fromShopId: 1101, toShopId: 1102, fruitId: 7, quantity: 5, borrowDate: ISODate("2023-01-12"), returnDate: ISODate("2023-01-19"), status: false },
+  { _id: 3, fromShopId: 2101, toShopId: 2102, fruitId: 4, quantity: 15, borrowDate: ISODate("2023-01-08"), returnDate: ISODate("2023-01-15"), status: true },
+  { _id: 4, fromShopId: 2101, toShopId: 2102, fruitId: 5, quantity: 10, borrowDate: ISODate("2023-01-18"), returnDate: ISODate("2023-01-25"), status: true },
+  { _id: 5, fromShopId: 5201, toShopId: 5101, fruitId: 8, quantity: 8, borrowDate: ISODate("2023-01-20"), returnDate: ISODate("2023-01-27"), status: true }
+])
+
+// 配送集合
+db.createCollection("deliveries")
+db.deliveries.insertMany([
+  // Deliveries from central warehouses to regional warehouses
+  { _id: 1, fromWarehouseId: 1001, toLocationId: 1002, fruitId: 1, quantity: 200, deliveryDate: ISODate("2023-01-02"), estimatedArrivalDate: ISODate("2023-01-03"), status: "Delivered" },
+  { _id: 2, fromWarehouseId: 2001, toLocationId: 2002, fruitId: 4, quantity: 150, deliveryDate: ISODate("2023-01-05"), estimatedArrivalDate: ISODate("2023-01-07"), status: "Delivered" },
+  { _id: 3, fromWarehouseId: 3001, toLocationId: 3002, fruitId: 2, quantity: 100, deliveryDate: ISODate("2023-01-08"), estimatedArrivalDate: ISODate("2023-01-09"), status: "Delivered" },
+  { _id: 4, fromWarehouseId: 4001, toLocationId: 4002, fruitId: 6, quantity: 120, deliveryDate: ISODate("2023-01-10"), estimatedArrivalDate: ISODate("2023-01-12"), status: "Delivered" },
+  { _id: 5, fromWarehouseId: 5001, toLocationId: 5002, fruitId: 3, quantity: 100, deliveryDate: ISODate("2023-01-15"), estimatedArrivalDate: ISODate("2023-01-16"), status: "Delivered" },
+
+  // Deliveries from regional warehouses to shops
+  { _id: 6, fromWarehouseId: 1002, toLocationId: 1101, fruitId: 1, quantity: 50, deliveryDate: ISODate("2023-01-04"), estimatedArrivalDate: ISODate("2023-01-05"), status: "Delivered" },
+  { _id: 7, fromWarehouseId: 2002, toLocationId: 2101, fruitId: 4, quantity: 40, deliveryDate: ISODate("2023-01-07"), estimatedArrivalDate: ISODate("2023-01-09"), status: "Delivered" },
+  { _id: 8, fromWarehouseId: 3002, toLocationId: 3101, fruitId: 2, quantity: 30, deliveryDate: ISODate("2023-01-09"), estimatedArrivalDate: ISODate("2023-01-10"), status: "Delivered" },
+  { _id: 9, fromWarehouseId: 4002, toLocationId: 4101, fruitId: 6, quantity: 25, deliveryDate: ISODate("2023-01-12"), estimatedArrivalDate: ISODate("2023-01-14"), status: "Delivered" },
+  { _id: 10, fromWarehouseId: 5002, toLocationId: 5101, fruitId: 3, quantity: 30, deliveryDate: ISODate("2023-01-16"), estimatedArrivalDate: ISODate("2023-01-18"), status: "InTransit" }
+])
