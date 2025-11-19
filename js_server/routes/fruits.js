@@ -1,21 +1,37 @@
 const express = require('express');
 const fruitDB = require('../orderDB/fruitsDB');
+const CountriesDB = require('../orderDB/countriesDB');
 const router = express.Router();
 
 router.get('/fruits', async (req, res) => {
     try {
         const result = await fruitDB.getAllFruits();
-
-        if (result.success) {
+        const countriesResult = await CountriesDB.getAllCountries();
+        
+        if (result.success && countriesResult.success) {
+            // 创建国家ID到名称的映射
+            const countryMap = {};
+            countriesResult.data.forEach(country => {
+                countryMap[country._id] = country.name;
+            });
+            
+            // 处理水果数据，将 originCountryId 转换为国家名称
+            const processedFruits = result.data.map(fruit => {
+                return {
+                    ...fruit,
+                    originCountryName: countryMap[fruit.originCountryId] || 'Unknown Country'
+                };
+            });
+            
             res.json({
                 collection: 'fruits',
                 count: result.count,
-                data: result.data
+                data: processedFruits
             });
         } else {
             res.status(500).json({
-                error: 'Failed to retrieve fruit data',
-                message: result.error
+                error: 'Failed to retrieve data',
+                message: result.error || countriesResult.error
             });
         }
     } catch (error) {

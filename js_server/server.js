@@ -2,31 +2,63 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/database');
+const os = require('os'); 
 
 const indexRoutes = require('./routes/index');
 const citiesDBRoutes = require('./routes/cities'); 
 const staffDBRoutes = require('./routes/staff'); 
 const fruitsDBRoutes = require('./routes/fruits'); 
 const inventoryDBRoutes = require('./routes/inventory');
+const borrowsDBRoutes = require('./routes/borrows');
+const deliveriesDBRoutes = require('./routes/deliveries');
+const locationsDBRoutes = require('./routes/location');
 
 const app = express();
 const PORT = 3020;
 
-// 添加 cookie-parser 中间件
+
+function getLocalIP() {
+    const interfaces = os.networkInterfaces();
+    for (const interfaceName in interfaces) {
+        for (const interface of interfaces[interfaceName]) {
+            
+            if (interface.family === 'IPv4' && !interface.internal) {
+                
+                if (interface.address.startsWith('192.168.')) {
+                    return interface.address;
+                }
+            }
+        }
+    }
+    
+    
+    for (const interfaceName in interfaces) {
+        for (const interface of interfaces[interfaceName]) {
+            if (interface.family === 'IPv4' && !interface.internal) {
+                return interface.address;
+            }
+        }
+    }
+    
+    return 'localhost'; 
+}
+
+const HOST = getLocalIP();
+
+
 app.use(cookieParser());
 
-// 添加完整的 CORS 中间件
+
 app.use((req, res, next) => {
-    // 允许的前端地址
-    const allowedOrigins = [
-        'http://localhost:3000', 
-        'http://localhost:3001',
-        'http://127.0.0.1:3000'
-    ];
     const origin = req.headers.origin;
     
-    // 检查请求的 origin 是否在允许列表中
-    if (allowedOrigins.includes(origin)) {
+    
+    if (origin && (
+        origin.includes('localhost') || 
+        origin.includes('127.0.0.1') ||
+        origin.includes('192.168.') ||
+        origin.includes('172.')
+    )) {
         res.header('Access-Control-Allow-Origin', origin);
     }
     
@@ -34,7 +66,6 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
     
-    // 处理预检请求
     if (req.method === 'OPTIONS') {
         return res.sendStatus(200);
     }
@@ -43,21 +74,46 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-// 连接数据库
+
 connectDB();
 
-// 路由
+
 app.use('/', indexRoutes);
 app.use('/', citiesDBRoutes);  
 app.use('/', staffDBRoutes);
 app.use('/', fruitsDBRoutes);
 app.use('/', inventoryDBRoutes);
+app.use('/', borrowsDBRoutes);
+app.use('/', deliveriesDBRoutes);
+app.use('/', locationsDBRoutes);
 
-// 启动服务器
-app.listen(PORT, () => {
-    console.log(`Server API at http://localhost:${PORT}`);
-    console.log(`CORS 配置: 允许携带凭证 (credentials)`);
-    console.log(`允许的前端地址: http://localhost:3000, http://localhost:3001`);
+
+app.get('/server/info', (req, res) => {
+    const serverInfo = {
+        host: HOST,
+        port: PORT,
+        localUrl: `http://localhost:${PORT}`,
+        networkUrl: `http://${HOST}:${PORT}`,
+        networkInterfaces: os.networkInterfaces(),
+        platform: os.platform(),
+        hostname: os.hostname(),
+        timestamp: new Date().toISOString()
+    };
+    res.json(serverInfo);
+});
+
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running`);
+    console.log(`Local: http://localhost:${PORT}`);
+    console.log(`Network: http://${HOST}:${PORT}`);
+    console.log(`Server info: http://localhost:${PORT}/server/info`);
+    console.log(`CORS: Enabled with credentials`);
+    console.log(`Allowed origins:`);
+    console.log(`   - http://localhost:3000`);
+    console.log(`   - http://localhost:3001`);
+    console.log(`   - http://${HOST}:3000`);
+    console.log(`   - http://${HOST}:3001`);
 });
 
 module.exports = app;

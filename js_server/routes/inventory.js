@@ -68,5 +68,35 @@ router.get('/inventory/list', async (req, res) => {
     }
 });
 
+router.put('/inventory/update/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { fruitId, locationId, quantity } = req.body;
+
+        const result = await inventoryDB.updateInventory(id, {
+            fruitId: fruitId,
+            locationId: locationId,
+            quantity: quantity
+        });
+
+        if (result.success) {
+            res.json({
+                message: 'Inventory updated successfully',
+                data: result.data
+            });
+        } else {
+            res.status(400).json({
+                error: 'Failed to update inventory',
+                message: result.error
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+            message: error.message
+        });
+    }
+});
+
 
 module.exports = router;
