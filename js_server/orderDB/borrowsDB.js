@@ -139,7 +139,7 @@ class BorrowsDB {
             if (existingBorrow) {
                 return {
                     success: false,
-                    error: '借还记录ID已存在'
+                    error: 'ID in'
                 };
             }
 
@@ -148,7 +148,7 @@ class BorrowsDB {
             
             return {
                 success: true,
-                message: '借还记录添加成功',
+                message: 'ok',
                 data: savedBorrow
             };
         } catch (error) {
@@ -167,7 +167,7 @@ class BorrowsDB {
             if (!existingBorrow) {
                 return {
                     success: false,
-                    error: '借还记录不存在'
+                    error: 'not find'
                 };
             }
 
@@ -203,7 +203,7 @@ class BorrowsDB {
             if (!existingBorrow) {
                 return {
                     success: false,
-                    error: '借还记录不存在'
+                    error: 'not find'
                 };
             }
 
@@ -211,7 +211,7 @@ class BorrowsDB {
 
             return {
                 success: true,
-                message: '借还记录删除成功',
+                message: 'delete',
                 data: deletedBorrow
             };
         } catch (error) {
@@ -229,7 +229,7 @@ class BorrowsDB {
             
             return {
                 success: true,
-                message: `成功插入 ${result.length} 条借还记录`,
+                message: `succesful ${result.length} `,
                 data: result
             };
         } catch (error) {

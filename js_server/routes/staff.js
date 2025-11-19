@@ -3,7 +3,6 @@ const staffDB = require('../orderDB/staffDB');
 const locationDB = require('../orderDB/locationsDB');
 const router = express.Router();
 
-
 router.get('/staff', async (req, res) => {
     try {
         const result = await staffDB.getAllStaff();
@@ -28,7 +27,6 @@ router.get('/staff', async (req, res) => {
     }
 });
 
-// 现有的 GET 接口保持不变（为了兼容性）
 router.get('/staff/login/:email/:password', async (req, res) => {
     try {
         const email = req.params.email;
@@ -49,65 +47,62 @@ router.get('/staff/login/:email/:password', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            error: 'Failed to update staff',
+            error: 'Failed to authenticate staff',
             message: error.message
         });
     }
 });
 
-// 新增 POST 接口支持 HttpOnly Cookie
 router.post('/staff/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        console.log('📧 登录请求:', { email, password: password ? '***' : 'undefined' });
+        console.log(' Login request:', { email, password: password ? '***' : 'undefined' });
 
-        // 检查必要字段
         if (!email || !password) {
-            console.log('❌ 缺少邮箱或密码');
+            console.log('Missing email or password');
             return res.status(400).json({
                 success: false,
-                error: '邮箱和密码不能为空'
+                error: 'Email and password are required'
             });
         }
 
         const result = await staffDB.staffLogin(email, password);
 
-        console.log('🔍 数据库返回结果:', result);
+        console.log(' Database response:', result);
 
         if (result.success) {
-            // 设置 HttpOnly Cookie
             res.cookie('userEmail', email, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
-                maxAge: 24 * 60 * 60 * 1000, // 1天
+                maxAge: 24 * 60 * 60 * 1000,
                 path: '/',
             });
 
-            console.log('✅ 登录成功，设置 Cookie');
+            console.log('Login successful, cookie set');
             res.json({
                 success: true,
-                message: '登录成功',
+                message: 'Login successful',
                 staff: result.data
             });
         } else {
-            console.log('❌ 登录失败:', result.error);
+            console.log('Login failed:', result.error);
             res.status(401).json({
                 success: false,
                 error: result.error
             });
         }
     } catch (error) {
-        console.error('💥 服务器错误:', error);
+        console.error(' Server error:', error);
         res.status(500).json({
             success: false,
-            error: '登录失败',
+            error: 'Login failed',
             message: error.message
         });
     }
 });
-// 检查认证状态
+
 router.get('/auth/check', (req, res) => {
     const userEmail = req.cookies.userEmail;
     
@@ -125,7 +120,6 @@ router.get('/auth/check', (req, res) => {
     }
 });
 
-// 登出接口
 router.post('/auth/logout', (req, res) => {
     res.clearCookie('userEmail', {
         httpOnly: true,
@@ -136,14 +130,13 @@ router.post('/auth/logout', (req, res) => {
     
     res.json({
         success: true,
-        message: '已退出登录'
+        message: 'Logged out successfully'
     });
 });
 
 router.get('/staff/information/:email', async (req, res) => {
     try {
         const email = req.params.email;
-        
 
         const result = await staffDB.getStaffByEmail(email);
         const locationResult = await locationDB.getLocationById(result.data.locationId);
@@ -154,7 +147,6 @@ router.get('/staff/information/:email', async (req, res) => {
                 staff: result.data,
                 location: locationResult.data.address
             });
-            
         } else {
             res.status(401).json({
                 error: 'false',
@@ -163,7 +155,7 @@ router.get('/staff/information/:email', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            error: 'Failed to update staff',
+            error: 'Failed to retrieve staff information',
             message: error.message
         });
     }

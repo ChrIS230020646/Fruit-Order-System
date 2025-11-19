@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const DeliveriesDB = require('../orderDB/deliveriesDB');
@@ -14,11 +13,9 @@ router.get('/deliveries/list', async (req, res) => {
     console.log('Deliveries result:', deliveriesResult);
     console.log('Fruits result:', fruitsResult);
 
-    
     let deliveries = [];
     let fruits = [];
 
-    
     if (Array.isArray(deliveriesResult)) {
       deliveries = deliveriesResult;
     } else if (deliveriesResult && typeof deliveriesResult === 'object') {
@@ -31,7 +28,6 @@ router.get('/deliveries/list', async (req, res) => {
       }
     }
 
-    
     if (Array.isArray(fruitsResult)) {
       fruits = fruitsResult;
     } else if (fruitsResult && typeof fruitsResult === 'object') {
@@ -47,7 +43,6 @@ router.get('/deliveries/list', async (req, res) => {
     console.log('Processed deliveries:', deliveries);
     console.log('Processed fruits:', fruits);
 
-    
     const fruitMap = {};
     fruits.forEach(fruit => {
       if (fruit && fruit._id) {
@@ -55,7 +50,6 @@ router.get('/deliveries/list', async (req, res) => {
       }
     });
 
-    
     const deliveriesWithFruitInfo = deliveries.map(delivery => ({
       ...delivery,
       fruitName: fruitMap[delivery.fruitId]?.name || null
@@ -67,24 +61,23 @@ router.get('/deliveries/list', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('获取配送列表失败:', error);
+    console.error('Failed to fetch delivery list:', error);
     res.status(500).json({
       success: false,
-      message: '获取配送列表失败: ' + error.message
+      message: 'Failed to fetch delivery list: ' + error.message
     });
   }
 });
 
 router.get('/deliveries/report', async (req, res) => {
     try {
-        
         const deliveriesResult = await DeliveriesDB.getAllDeliveries();
         const fruitsResult = await FruitsDB.getAllFruits();
 
         if (!deliveriesResult.success || !fruitsResult.success) {
             return res.status(500).json({
                 success: false,
-                message: '获取数据失败',
+                message: 'Failed to fetch data',
                 error: deliveriesResult.error || fruitsResult.error
             });
         }
@@ -92,39 +85,35 @@ router.get('/deliveries/report', async (req, res) => {
         const deliveries = deliveriesResult.data;
         const fruits = fruitsResult.data;
 
-        
         const fruitMap = {};
         fruits.forEach(fruit => {
             fruitMap[fruit._id] = fruit.name.toLowerCase();
         });
 
-        
         const months = [
-            { value: '一月', label: 'January', en: 'January', monthNum: 1 },
-            { value: '二月', label: 'February', en: 'February', monthNum: 2 },
-            { value: '三月', label: 'March', en: 'March', monthNum: 3 },
-            { value: '四月', label: 'April', en: 'April', monthNum: 4 },
-            { value: '五月', label: 'May', en: 'May', monthNum: 5 },
-            { value: '六月', label: 'June', en: 'June', monthNum: 6 },
-            { value: '七月', label: 'July', en: 'July', monthNum: 7 },
-            { value: '八月', label: 'August', en: 'August', monthNum: 8 },
-            { value: '九月', label: 'September', en: 'September', monthNum: 9 },
-            { value: '十月', label: 'October', en: 'October', monthNum: 10 },
-            { value: '十一月', label: 'November', en: 'November', monthNum: 11 },
-            { value: '十二月', label: 'December', en: 'December', monthNum: 12 }
+            { value: 'January', label: 'January', en: 'January', monthNum: 1 },
+            { value: 'February', label: 'February', en: 'February', monthNum: 2 },
+            { value: 'March', label: 'March', en: 'March', monthNum: 3 },
+            { value: 'April', label: 'April', en: 'April', monthNum: 4 },
+            { value: 'May', label: 'May', en: 'May', monthNum: 5 },
+            { value: 'June', label: 'June', en: 'June', monthNum: 6 },
+            { value: 'July', label: 'July', en: 'July', monthNum: 7 },
+            { value: 'August', label: 'August', en: 'August', monthNum: 8 },
+            { value: 'September', label: 'September', en: 'September', monthNum: 9 },
+            { value: 'October', label: 'October', en: 'October', monthNum: 10 },
+            { value: 'November', label: 'November', en: 'November', monthNum: 11 },
+            { value: 'December', label: 'December', en: 'December', monthNum: 12 }
         ];
 
-        
         const monthlyData = {};
         months.forEach(month => {
             monthlyData[month.value] = {};
         });
 
-        
         deliveries.forEach(delivery => {
             if (delivery.deliveryDate && delivery.status === 'Delivered') {
                 const deliveryDate = new Date(delivery.deliveryDate);
-                const monthIndex = deliveryDate.getMonth(); 
+                const monthIndex = deliveryDate.getMonth();
                 const month = months[monthIndex];
                 const fruitName = fruitMap[delivery.fruitId];
 
@@ -137,7 +126,6 @@ router.get('/deliveries/report', async (req, res) => {
             }
         });
 
-        
         const report = {
             monthlyData: monthlyData,
             summary: {
@@ -170,7 +158,6 @@ router.get('/deliveries/report', async (req, res) => {
     }
 });
 
-
 router.get('/deliveries/annual-summary/:year', async (req, res) => {
     try {
         const year = parseInt(req.params.year);
@@ -196,7 +183,6 @@ router.delete('/deliveries/delete/:id', async (req, res) => {
   try {
     const deliveryId = req.params.id;
 
-    
     if (!deliveryId) {
       return res.status(400).json({
         success: false,
@@ -204,7 +190,6 @@ router.delete('/deliveries/delete/:id', async (req, res) => {
       });
     }
 
-    
     const result = await DeliveriesDB.deleteDelivery(deliveryId);
 
     if (!result) {
@@ -221,8 +206,7 @@ router.delete('/deliveries/delete/:id', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('删除配送记录失败:', error);
-    
+    console.error('Failed to delete delivery record:', error);
     
     if (error.name === 'CastError') {
       return res.status(400).json({
@@ -233,7 +217,7 @@ router.delete('/deliveries/delete/:id', async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: '删除配送记录失败: ' + error.message
+      message: 'Failed to delete delivery record: ' + error.message
     });
   }
 });
@@ -250,7 +234,6 @@ router.post('/deliveries/insert', async (req, res) => {
       status
     } = req.body;
 
-    // 验证必填字段
     if (!fromWarehouseId || !toLocationId || !fruitId || !quantity || !deliveryDate || !estimatedArrivalDate) {
       return res.status(400).json({
         success: false,
@@ -275,10 +258,10 @@ router.post('/deliveries/insert', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('创建配送记录失败:', error);
+    console.error('Failed to create delivery record:', error);
     res.status(500).json({
       success: false,
-      message: '创建配送记录失败: ' + error.message
+      message: 'Failed to create delivery record: ' + error.message
     });
   }
 });

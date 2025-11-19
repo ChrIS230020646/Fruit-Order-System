@@ -1,8 +1,8 @@
-// orderDB/inventoryDB.js
+//orderDB/inventoryDB.js
 const InventoryBean = require('../orderBean/inventoryBean');
 
 class InventoryDB {
-    // 获取所有库存记录
+    
     static async getAllInventory() {
         try {
             const inventory = await InventoryBean.find({});
@@ -19,7 +19,7 @@ class InventoryDB {
         }
     }
 
-    // 根据水果ID查询库存
+    
     static async getInventoryByFruitId(fruitId) {
         try {
             const inventory = await InventoryBean.find({ fruitId: fruitId });
@@ -36,7 +36,7 @@ class InventoryDB {
         }
     }
 
-    // 根据位置ID查询库存
+    
     static async getInventoryByLocationId(locationId) {
         try {
             const inventory = await InventoryBean.find({ locationId: locationId });
@@ -53,7 +53,7 @@ class InventoryDB {
         }
     }
 
-    // 根据库存ID查询
+    
     static async getInventoryById(inventoryId) {
         try {
             const inventory = await InventoryBean.findOne({ _id: inventoryId });
@@ -75,7 +75,7 @@ class InventoryDB {
         }
     }
 
-    // 根据水果ID和位置ID查询特定库存
+    
     static async getInventoryByFruitAndLocation(fruitId, locationId) {
         try {
             const inventory = await InventoryBean.findOne({ 
@@ -100,10 +100,10 @@ class InventoryDB {
         }
     }
 
-    // INSERT - 添加新库存记录
+    
     static async insertInventory(inventoryData) {
         try {
-            // 检查库存ID是否已存在
+            
             const existingInventory = await InventoryBean.findOne({ _id: inventoryData._id });
             if (existingInventory) {
                 return {
@@ -128,10 +128,10 @@ class InventoryDB {
         }
     }
 
-    // UPDATE - 更新库存信息
+    
     static async updateInventory(inventoryId, updateData) {
         try {
-            // 检查库存记录是否存在
+            
             const existingInventory = await InventoryBean.findOne({ _id: inventoryId });
             if (!existingInventory) {
                 return {
@@ -140,7 +140,7 @@ class InventoryDB {
                 };
             }
 
-            // 不允许更新 _id
+            
             if (updateData._id) {
                 delete updateData._id;
             }
@@ -164,10 +164,10 @@ class InventoryDB {
         }
     }
 
-    // DELETE - 删除库存记录
+    
     static async deleteInventory(inventoryId) {
         try {
-            // 检查库存记录是否存在
+            
             const existingInventory = await InventoryBean.findOne({ _id: inventoryId });
             if (!existingInventory) {
                 return {
@@ -191,7 +191,7 @@ class InventoryDB {
         }
     }
 
-    // 批量插入库存记录
+    
     static async insertManyInventory(inventoryArray) {
         try {
             const result = await InventoryBean.insertMany(inventoryArray);
@@ -209,7 +209,7 @@ class InventoryDB {
         }
     }
 
-    // 更新库存数量
+    
     static async updateInventoryQuantity(fruitId, locationId, newQuantity) {
         try {
             const updatedInventory = await InventoryBean.findOneAndUpdate(
@@ -238,7 +238,7 @@ class InventoryDB {
         }
     }
 
-    // 统计每个位置的水果种类数量
+    
     static async getFruitCountByLocation() {
         try {
             const result = await InventoryBean.aggregate([
@@ -272,7 +272,7 @@ class InventoryDB {
         }
     }
 
-    // 统计每个水果的库存分布
+    
     static async getLocationCountByFruit() {
         try {
             const result = await InventoryBean.aggregate([

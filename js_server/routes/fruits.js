@@ -9,13 +9,13 @@ router.get('/fruits', async (req, res) => {
         const countriesResult = await CountriesDB.getAllCountries();
         
         if (result.success && countriesResult.success) {
-            // 创建国家ID到名称的映射
+            
             const countryMap = {};
             countriesResult.data.forEach(country => {
                 countryMap[country._id] = country.name;
             });
             
-            // 处理水果数据，将 originCountryId 转换为国家名称
+            
             const processedFruits = result.data.map(fruit => {
                 return {
                     ...fruit,
@@ -53,7 +53,7 @@ router.put('/fruits/update/:id', async (req, res) => {
             name: name,
             originCountryId: parseInt(originCountryId),
             price: parseFloat(price),
-            imageURL: imageURL  // 即使为空也会正常传递
+            imageURL: imageURL  
         });
 
         if (result.success) {

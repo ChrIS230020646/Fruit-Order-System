@@ -80,7 +80,7 @@ router.post("/borrows/insert/", async (req, res) => {
         
         res.status(201).json({
             success: true,
-            message: `成功添加 ${results.length} 条借还记录`,
+            message: `succesful ${results.length} `,
             data: results
         });
         

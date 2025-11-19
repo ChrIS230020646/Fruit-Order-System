@@ -2,7 +2,7 @@
 const CityBean = require('../orderBean/citiesBean');
 
 class CityDB {
-    // (SELECT * FROM cities)
+    
     static async getAllCities() {
         try {
             const cities = await CityBean.find({});
@@ -19,7 +19,7 @@ class CityDB {
         }
     }
 
-    // 根据国家ID查询城市
+    
     static async getCitiesByCountryId(countryId) {
         try {
             const cities = await CityBean.find({ countryId: countryId });
@@ -36,14 +36,14 @@ class CityDB {
         }
     }
 
-    // 根据城市ID查询
+    
     static async getCityById(cityId) {
         try {
             const city = await CityBean.findOne({ _id: cityId });
             if (!city) {
                 return {
                     success: false,
-                    error: '城市不存在'
+                    error: 'city'
                 };
             }
             return {
@@ -58,11 +58,11 @@ class CityDB {
         }
     }
 
-    // 根据城市名称查询
+    
     static async getCityByName(cityName) {
         try {
             const cities = await CityBean.find({ 
-                name: { $regex: cityName, $options: 'i' } // 不区分大小写
+                name: { $regex: cityName, $options: 'i' } 
             });
             return {
                 success: true,
@@ -77,10 +77,10 @@ class CityDB {
         }
     }
 
-    // INSERT - 添加新城市
+    
     static async insertCity(cityData) {
         try {
-            // 检查城市ID是否已存在
+            
             const existingCity = await CityBean.findOne({ _id: cityData._id });
             if (existingCity) {
                 return {
@@ -105,10 +105,10 @@ class CityDB {
         }
     }
 
-    // UPDATE - 更新城市信息
+    
     static async updateCity(cityId, updateData) {
         try {
-            // 检查城市是否存在
+            
             const existingCity = await CityBean.findOne({ _id: cityId });
             if (!existingCity) {
                 return {
@@ -117,7 +117,7 @@ class CityDB {
                 };
             }
 
-            // 不允许更新 _id
+            
             if (updateData._id) {
                 delete updateData._id;
             }
@@ -125,7 +125,7 @@ class CityDB {
             const updatedCity = await CityBean.findOneAndUpdate(
                 { _id: cityId },
                 { $set: updateData },
-                { new: true, runValidators: true } // 返回更新后的文档，运行验证
+                { new: true, runValidators: true } 
             );
 
             return {
@@ -141,10 +141,10 @@ class CityDB {
         }
     }
 
-    // DELETE - 删除城市
+    
     static async deleteCity(cityId) {
         try {
-            // 检查城市是否存在
+            
             const existingCity = await CityBean.findOne({ _id: cityId });
             if (!existingCity) {
                 return {
@@ -168,7 +168,7 @@ class CityDB {
         }
     }
 
-    // 批量插入城市
+    
     static async insertManyCities(citiesArray) {
         try {
             const result = await CityBean.insertMany(citiesArray);
@@ -186,7 +186,7 @@ class CityDB {
         }
     }
 
-    // 统计每个国家的城市数量
+    
     static async getCitiesCountByCountry() {
         try {
             const result = await CityBean.aggregate([

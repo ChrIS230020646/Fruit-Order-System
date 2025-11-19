@@ -2,7 +2,7 @@
 const StaffBean = require('../orderBean/staffBean');
 
 class StaffDB {
-    // (SELECT * FROM staff)
+    
     static async getAllStaff() {
         try {
             const staff = await StaffBean.find({});
@@ -19,7 +19,7 @@ class StaffDB {
         }
     }
 
-    // Get staff by job
+    
     static async getStaffByJob(job) {
         try {
             const staff = await StaffBean.find({ job: job });
@@ -36,7 +36,7 @@ class StaffDB {
         }
     }
 
-    // Get staff by location ID
+    
     static async getStaffByLocationId(locationId) {
         try {
             const staff = await StaffBean.find({ locationId: locationId });
@@ -53,7 +53,7 @@ class StaffDB {
         }
     }
 
-    // Get staff by status
+    
     static async getStaffByStatus(status) {
         try {
             const staff = await StaffBean.find({ status: status });
@@ -70,7 +70,7 @@ class StaffDB {
         }
     }
 
-    // Get staff by ID
+    
     static async getStaffById(staffId) {
         try {
             const staff = await StaffBean.findOne({ _id: staffId });
@@ -92,11 +92,11 @@ class StaffDB {
         }
     }
 
-    // Get staff by name
+    
     static async getStaffByName(staffName) {
         try {
             const staff = await StaffBean.find({ 
-                name: { $regex: staffName, $options: 'i' } // case insensitive
+                name: { $regex: staffName, $options: 'i' } 
             });
             return {
                 success: true,
@@ -111,7 +111,7 @@ class StaffDB {
         }
     }
 
-    // Get staff by email
+    
     static async getStaffByEmail(email) {
         try {
             const staff = await StaffBean.findOne({ email: email });
@@ -133,10 +133,10 @@ class StaffDB {
         }
     }
 
-    // INSERT - Add new staff
+    
     static async insertStaff(staffData) {
         try {
-            // Check if staff ID already exists
+            
             const existingStaff = await StaffBean.findOne({ _id: staffData._id });
             if (existingStaff) {
                 return {
@@ -145,7 +145,7 @@ class StaffDB {
                 };
             }
 
-            // Check if email already exists
+            
             const existingEmail = await StaffBean.findOne({ email: staffData.email });
             if (existingEmail) {
                 return {
@@ -170,10 +170,10 @@ class StaffDB {
         }
     }
 
-// UPDATE - Update staff information
+
 static async updateStaff(staffId, updateData) {
     try {
-        // Check if staff exists
+        
         const existingStaff = await StaffBean.findOne({ _id: staffId });
         if (!existingStaff) {
             return {
@@ -182,7 +182,7 @@ static async updateStaff(staffId, updateData) {
             };
         }
 
-        // Prevent updating _id
+        
         if (updateData._id) {
             delete updateData._id;
         }
@@ -190,7 +190,7 @@ static async updateStaff(staffId, updateData) {
         const updatedStaff = await StaffBean.findOneAndUpdate(
             { _id: staffId },
             { $set: updateData },
-            { new: true, runValidators: true } // Return updated document, run validators
+            { new: true, runValidators: true } 
         );
 
         return {
@@ -206,10 +206,10 @@ static async updateStaff(staffId, updateData) {
     }
 }
 
-    // DELETE - Delete staff
+    
     static async deleteStaff(staffId) {
         try {
-            // Check if staff exists
+            
             const existingStaff = await StaffBean.findOne({ _id: staffId });
             if (!existingStaff) {
                 return {
@@ -233,7 +233,7 @@ static async updateStaff(staffId, updateData) {
         }
     }
 
-    // Bulk insert staff
+    
     static async insertManyStaff(staffArray) {
         try {
             const result = await StaffBean.insertMany(staffArray);
@@ -251,7 +251,7 @@ static async updateStaff(staffId, updateData) {
         }
     }
 
-    // Count staff by location
+    
     static async getStaffCountByLocation() {
         try {
             const result = await StaffBean.aggregate([
@@ -279,7 +279,7 @@ static async updateStaff(staffId, updateData) {
         }
     }
 
-    // Count staff by job
+    
     static async getStaffCountByJob() {
         try {
             const result = await StaffBean.aggregate([
@@ -307,13 +307,13 @@ static async updateStaff(staffId, updateData) {
         }
     }
 
-    // Staff login verification
+    
     static async staffLogin(email, password) {
         try {
             const staff = await StaffBean.findOne({ 
                 email: email, 
                 password: password,
-                status: true // Ensure staff status is active
+                status: true 
             });
             
             if (!staff) {
@@ -336,7 +336,7 @@ static async updateStaff(staffId, updateData) {
         }
     }
 
-    // Search staff with multiple criteria
+    
     static async searchStaff(criteria) {
         try {
             const query = {};

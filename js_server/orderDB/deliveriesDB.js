@@ -26,7 +26,7 @@ class DeliveriesDB {
             if (!delivery) {
                 return {
                     success: false,
-                    error: '配送记录不存在'
+                    error: 'not find'
                 };
             }
             return {
@@ -147,7 +147,7 @@ class DeliveriesDB {
             if (existingDelivery) {
                 return {
                     success: false,
-                    error: '配送ID已存在'
+                    error: 'reID'
                 };
             }
 
@@ -156,7 +156,7 @@ class DeliveriesDB {
             
             return {
                 success: true,
-                message: '配送记录添加成功',
+                message: 'succesful',
                 data: savedDelivery
             };
         } catch (error) {
@@ -175,7 +175,7 @@ class DeliveriesDB {
             if (!existingDelivery) {
                 return {
                     success: false,
-                    error: '配送记录不存在'
+                    error: 'not find'
                 };
             }
 
@@ -192,7 +192,7 @@ class DeliveriesDB {
 
             return {
                 success: true,
-                message: '配送记录更新成功',
+                message: 'update succesful',
                 data: updatedDelivery
             };
         } catch (error) {
@@ -211,7 +211,7 @@ class DeliveriesDB {
             if (!existingDelivery) {
                 return {
                     success: false,
-                    error: '配送记录不存在'
+                    error: 'not find'
                 };
             }
 
@@ -237,7 +237,7 @@ class DeliveriesDB {
             
             return {
                 success: true,
-                message: `成功插入 ${result.length} 条配送记录`,
+                message: `succesful ${result.length} `,
                 data: result
             };
         } catch (error) {
