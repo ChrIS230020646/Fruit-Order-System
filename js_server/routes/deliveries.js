@@ -3,6 +3,52 @@ const router = express.Router();
 const DeliveriesDB = require('../orderDB/deliveriesDB');
 const FruitsDB = require('../orderDB/fruitsDB');
 
+router.put('/deliveries/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        error: 'Delivery ID is required'
+      });
+    }
+
+    if (!updateData || Object.keys(updateData).length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'No update data provided'
+      });
+    }
+
+    
+    const result = await DeliveriesDB.updateDelivery(id, updateData);
+
+    if (!result.success) {
+      return res.status(404).json({
+        success: false,
+        error: result.error
+      });
+    }
+
+    
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+      data: result.data
+    });
+
+  } catch (error) {
+    console.error('Error in delivery update route:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
 router.get('/deliveries/list', async (req, res) => {
   try {
     const [deliveriesResult, fruitsResult] = await Promise.all([
