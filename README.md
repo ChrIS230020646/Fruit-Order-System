@@ -1,5 +1,12 @@
 # Fruit-Order-System
 A simple fruit ordering system using the MERN stack.
+
+# run npm
+1.
+cd js_server && npm install && cd ../Views && npm install && cd .. && npm install concurrently
+2.
+npx concurrently "cd js_server && node server.js" "cd Views && npm start"
+
 # 1. Show the list
 curl -X GET http://localhost:3020/deliveries/list
 
