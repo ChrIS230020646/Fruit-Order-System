@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Fruit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input {
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Update Fruit</h1>
+    <form id="updateFruitForm">
+        <label for="id">Fruit ID:</label>
+        <input type="text" id="id" name="id" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="originCountryId">Origin Country ID:</label>
+        <input type="number" id="originCountryId" name="originCountryId" required>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+
+        <label for="imageURL">Image URL:</label>
+        <input type="text" id="imageURL" name="imageURL">
+
+        <button type="submit">Update Fruit</button>
+    </form>
+
+    <script>
+        document.getElementById('updateFruitForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const id = document.getElementById('id').value;
+            const name = document.getElementById('name').value;
+            const originCountryId = document.getElementById('originCountryId').value;
+            const price = document.getElementById('price').value;
+            const imageURL = document.getElementById('imageURL').value;
+
+            const response = await fetch(`http://localhost:3020/fruits/update/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    originCountryId,
+                    price,
+                    imageURL
+                })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+            } else {
+                alert(`Error: ${result.error} - ${result.message}`);
+            }
+        });
+    </script>
+</body>
+</html>
