@@ -219,7 +219,7 @@ class DeliveriesDB {
 
             return {
                 success: true,
-                message: '配送记录删除成功',
+                message: 'delete succesful',
                 data: deletedDelivery
             };
         } catch (error) {

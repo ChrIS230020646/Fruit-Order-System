@@ -271,6 +271,7 @@ router.delete('/deliveries/delete/:id', async (req, res) => {
 router.post('/deliveries/insert', async (req, res) => {
   try {
     const {
+      _id, 
       fromWarehouseId,
       toLocationId,
       fruitId,
@@ -287,7 +288,8 @@ router.post('/deliveries/insert', async (req, res) => {
       });
     }
 
-    const savedDelivery = await DeliveriesDB.insertDelivery({
+    
+    const deliveryData = {
       fromWarehouseId,
       toLocationId,
       fruitId,
@@ -295,7 +297,14 @@ router.post('/deliveries/insert', async (req, res) => {
       deliveryDate: new Date(deliveryDate),
       estimatedArrivalDate: new Date(estimatedArrivalDate),
       status: status || 'Pending'
-    });
+    };
+
+    
+    if (_id) {
+      deliveryData._id = _id;
+    }
+
+    const savedDelivery = await DeliveriesDB.insertDelivery(deliveryData);
 
     res.status(201).json({
       success: true,
