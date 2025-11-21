@@ -1,3 +1,6 @@
 node_modules/
 .env
 .env.local
+js_server/.env
+.env
+*.env

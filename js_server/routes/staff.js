@@ -1,7 +1,10 @@
 const express = require('express');
 const staffDB = require('../orderDB/staffDB');
+const { OAuth2Client } = require('google-auth-library'); 
 const locationDB = require('../orderDB/locationsDB');
 const router = express.Router();
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 router.get('/staff', async (req, res) => {
     try {
@@ -23,6 +26,111 @@ router.get('/staff', async (req, res) => {
         res.status(500).json({
             error: 'Server error',
             message: error.message
+        });
+    }
+});
+
+router.post('/staff/google-login', async (req, res) => {
+    try {
+        const { credential } = req.body;
+
+        console.log('1. Google login request received, credential length:', credential ? credential.length : 'null');
+
+        if (!credential) {
+            console.log('Missing Google credential');
+            return res.status(400).json({
+                success: false,
+                error: 'Google credential is required'
+            });
+        }
+
+        // 檢查環境變量
+        console.log('2. Checking Google Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Present' : 'MISSING');
+        if (!process.env.GOOGLE_CLIENT_ID) {
+            return res.status(500).json({
+                success: false,
+                error: 'Google Client ID not configured on server'
+            });
+        }
+
+        // 驗證 Google token
+        console.log('3. Verifying Google token...');
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        const { email, name, picture, sub: googleId } = payload;
+
+        console.log('4. Google token verified for email:', email);
+
+        // 檢查用戶是否存在於資料庫中
+        console.log('5. Checking database for user:', email);
+        const userResult = await staffDB.findStaffByEmail(email);
+
+        if (!userResult.success) {
+            console.log('6. User not found in database:', email);
+            return res.status(401).json({
+                success: false,
+                error: 'User not registered. Please contact administrator.'
+            });
+        }
+
+        console.log('6. User found in database:', userResult.data);
+
+        const user = userResult.data;
+
+        // 設置 cookie（與普通登入保持一致）
+        console.log('7. Setting cookie for user:', email);
+        res.cookie('userEmail', email, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/',
+        });
+
+        console.log('8. Google login successful');
+        res.json({
+            success: true,
+            message: 'Google login successful',
+            staff: user
+        });
+
+    } catch (error) {
+        console.error('9. Google login ERROR - Full error details:');
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        
+        // 更具體的錯誤處理
+        if (error.message.includes('Token used too late')) {
+            return res.status(401).json({
+                success: false,
+                error: 'Google token expired. Please try again.'
+            });
+        }
+        
+        if (error.message.includes('Wrong number of segments')) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid Google token format.'
+            });
+        }
+
+        if (error.message.includes('Audience mismatch')) {
+            return res.status(400).json({
+                success: false,
+                error: 'Google Client ID mismatch. Please check server configuration.'
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            error: 'Google login failed',
+            message: error.message,
+            details: 'Check server logs for more information'
         });
     }
 });

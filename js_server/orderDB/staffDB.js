@@ -1,4 +1,4 @@
-// orderDB/staffDB.js
+
 const StaffBean = require('../orderBean/staffBean');
 
 class StaffDB {
@@ -36,6 +36,40 @@ class StaffDB {
         }
     }
 
+
+    async getStaffByEmail(email) {
+    return this.findStaffByEmail(email);
+}
+static async findStaffByEmail(email) {
+    try {
+        const staff = await StaffBean.findOne({ 
+            email: email,
+            status: true  
+        });
+        
+        if (!staff) {
+            return {
+                success: false,
+                error: 'Staff not found or account is disabled'
+            };
+        }
+
+        
+        const staffData = staff.toObject ? staff.toObject() : staff;
+        const { password, ...staffWithoutPassword } = staffData;
+
+        return {
+            success: true,
+            data: staffWithoutPassword
+        };
+    } catch (error) {
+        console.error('findStaffByEmail error:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
     
     static async getStaffByLocationId(locationId) {
         try {
