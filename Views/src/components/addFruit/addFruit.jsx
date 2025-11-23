@@ -36,17 +36,39 @@ const AddFruit = () => {
     const fetchCountries = async () => {
       try {
         setCountriesLoading(true);
-        const response = await fetch(`${GetApi.api}/countries`);
+        const response = await fetch(`${GetApi.api}/countries`, {
+          credentials: 'include'
+        });
         if (!response.ok) {
-          throw new Error('Failed to fetch countries');
+          throw new Error(`Failed to fetch countries: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
-        setCountries(data.data || []);
+        console.log('Countries API response:', data);
+        
+        // 處理不同的響應格式
+        let countriesList = [];
+        if (data.data && Array.isArray(data.data)) {
+          countriesList = data.data;
+        } else if (Array.isArray(data)) {
+          countriesList = data;
+        }
+        
+        console.log('Parsed countries list:', countriesList);
+        setCountries(countriesList);
+        
+        if (countriesList.length === 0) {
+          console.warn('No countries found in database');
+          setNotification({
+            open: true,
+            message: 'No countries available. Please add countries to the database first.',
+            severity: 'warning'
+          });
+        }
       } catch (error) {
         console.error('Error fetching countries:', error);
         setNotification({
           open: true,
-          message: 'Failed to load countries data',
+          message: `Failed to load countries data: ${error.message}`,
           severity: 'error'
         });
       } finally {
