@@ -4,12 +4,9 @@ import {
   Box,
   Button,
   Typography,
-  Card,
-  CardContent,
   TextField,
   Grid,
   Paper,
-  Divider,
   Alert,
   Snackbar,
   CircularProgress,
@@ -202,21 +199,31 @@ const EditStaff = ({ onCancel, onSave }) => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Typography variant="h4" color="primary">
-          Edit Staff Information
-        </Typography>
-      </Box>
-
-      <Card elevation={3}>
-        <CardContent sx={{ p: 4 }}>
-          <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-            <Person sx={{ mr: 1 }} />
+    <Box sx={{ maxWidth: 1200, margin: '0 auto', width: '100%', px: { xs: 1, sm: 2, md: 3 }, py: 3 }}>
+      <Paper sx={{ 
+        width: '100%', 
+        maxWidth: '100%',
+        overflow: 'hidden',
+        borderRadius: 3,
+        boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05)',
+      }}>
+        <Box sx={{ 
+          p: 3,
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+        }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5, color: 'white' }}>
+            Edit Staff Information
+          </Typography>
+          <Typography variant="body2" sx={{ opacity: 0.9, color: 'white', display: 'flex', alignItems: 'center' }}>
+            <Person sx={{ mr: 1, fontSize: 18 }} />
             Personal Details
           </Typography>
-          <Divider sx={{ mb: 4 }} />
+        </Box>
+        
+        <Box sx={{ p: 4 }}>
 
           <Grid container spacing={3}>
             
@@ -368,8 +375,8 @@ const EditStaff = ({ onCancel, onSave }) => {
               {saving ? 'Saving...' : 'Save Changes'}
             </Button>
           </Box>
-        </CardContent>
-      </Card>
+        </Box>
+      </Paper>
 
       
       <Snackbar
