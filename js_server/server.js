@@ -113,7 +113,8 @@ if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'tru
     }));
     
     // React Router 支持：所有非 API 路由都返回 index.html
-    app.get('*', (req, res, next) => {
+    // 使用 app.use 作為最後的中間件來處理所有未匹配的路由（Express 5.x 兼容）
+    app.use((req, res, next) => {
         // 如果是 API 路由，跳過（讓 Express 返回 404）
         if (isApiRoute(req.path)) {
             return next();
