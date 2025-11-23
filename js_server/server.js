@@ -117,6 +117,20 @@ if (frontendExists && shouldServeFrontend) {
             return next();
         }
         
+        // 對於根路徑，直接返回 index.html
+        if (req.path === '/' && req.method === 'GET') {
+            const indexPath = path.join(frontendBuildPath, 'index.html');
+            console.log('📄 返回前端頁面，路徑:', indexPath);
+            return res.sendFile(indexPath, (err) => {
+                if (err) {
+                    console.error('❌ 錯誤：無法發送 index.html:', err);
+                    res.status(500).send('Error loading application');
+                } else {
+                    console.log('✅ 成功發送 index.html');
+                }
+            });
+        }
+        
         // 檢查文件是否存在（靜態資源）
         const filePath = path.join(frontendBuildPath, req.path);
         if (fs.existsSync(filePath) && !req.path.endsWith('.html')) {
@@ -124,11 +138,12 @@ if (frontendExists && shouldServeFrontend) {
             return next();
         }
         
-        // 對於所有非 API 的 GET 請求，返回 React 應用的 index.html（支持 React Router）
+        // 對於所有其他非 API 的 GET 請求，返回 React 應用的 index.html（支持 React Router）
         if (req.method === 'GET') {
-            return res.sendFile(path.join(frontendBuildPath, 'index.html'), (err) => {
+            const indexPath = path.join(frontendBuildPath, 'index.html');
+            return res.sendFile(indexPath, (err) => {
                 if (err) {
-                    console.error('Error sending index.html:', err);
+                    console.error('❌ 錯誤：無法發送 index.html:', err);
                     res.status(500).send('Error loading application');
                 }
             });
