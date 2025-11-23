@@ -558,7 +558,6 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
           {snackbar.message}
         </Alert>
       </Snackbar>
-      </Paper>
     </Box>
   );
 }

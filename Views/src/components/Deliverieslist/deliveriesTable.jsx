@@ -307,7 +307,7 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
   }
 
   return (
-    <>
+    <Box sx={{ maxWidth: 1400, margin: '0 auto', width: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
       <Paper sx={{ 
         width: '100%', 
         overflow: 'hidden',
