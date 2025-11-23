@@ -123,7 +123,7 @@ LogoutControl.propTypes = {
 };
 
 function AppProviderBasic(props) {
-  const { window } = props;
+  const { window, onLogout } = props;
   const router = useDemoRouter('/page');
   const [userJob, setUserJob] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -280,33 +280,36 @@ function AppProviderBasic(props) {
         segment: 'logout',
         title: 'Logout',
         icon: <LogoutIcon />,
-        onClick: (onLogout = defaultOnLogout) => {
-          getEmail.clearEmail();
-          if (typeof onLogout === 'function') {
-            utils.logout();
-          } else {
-            window.location.reload();
-          }
-        },
       }
     );
 
     return navigation;
   };
 
-  const handleLogout = () => {
-    console.log('User logged out');
-    router.push('/page/logout');
-  };
-
-  const handleNavigation = (item) => {
+  const handleNavigation = async (item) => {
     if (item.segment === 'logout') {
+      // 清除本地存儲
       getEmail.clearEmail();
-      if (typeof handleLogout === 'function') {
-        handleLogout();
+      
+      // 如果有傳入 onLogout prop，使用它（這會調用後端 API 並更新 App 狀態）
+      if (typeof onLogout === 'function') {
+        try {
+          await onLogout();
+          // 登出成功後，App.js 會自動切換到登入頁面
+        } catch (error) {
+          console.error('Logout error:', error);
+          // 即使出錯也重定向到登入頁面
+          window.location.href = '/';
+        }
       } else {
-        defaultOnLogout(); 
-        window.location.reload();
+        // 如果沒有 onLogout prop，直接調用登出 API 並重定向
+        try {
+          await utils.logout();
+          window.location.href = '/';
+        } catch (error) {
+          console.error('Logout error:', error);
+          window.location.href = '/';
+        }
       }
     } else if (item.segment) {
       router.push(`/page/${item.segment}`);
@@ -356,9 +359,22 @@ function CustomAppTitle() {
 }
 
 function LogoutPage() {
-  utils.logout();
   React.useEffect(() => {
-    window.location.href = '/';
+    const performLogout = async () => {
+      try {
+        await utils.logout();
+        // 等待一小段時間確保 cookie 清除完成
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 500);
+      } catch (error) {
+        console.error('Logout error:', error);
+        // 即使出錯也重定向
+        window.location.href = '/';
+      }
+    };
+
+    performLogout();
   }, []);
 
   return (
@@ -428,6 +444,7 @@ DemoPageContent.propTypes = {
 
 AppProviderBasic.propTypes = {
   window: PropTypes.func,
+  onLogout: PropTypes.func,
 };
 
 export default AppProviderBasic;
