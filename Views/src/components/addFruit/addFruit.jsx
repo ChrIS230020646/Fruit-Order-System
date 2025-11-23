@@ -185,8 +185,8 @@ const AddFruit = () => {
             <Grid container spacing={2}>
               {fruits.map((fruit, index) => (
                 <Grid item xs={12} key={index}>
-                  <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.800', color: 'white' }}>
-                    <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Paper variant="outlined" sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 2 }}>
+                    <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', color: 'text.primary' }}>
                       Fruit #{index + 1}
                       {fruits.length > 1 && (
                         <Button
@@ -209,12 +209,11 @@ const AddFruit = () => {
                           onChange={(e) => updateFruit(index, 'name', e.target.value)}
                           required
                           placeholder="e.g., Apple"
-                          sx={{ input: { color: 'white' }, label: { color: 'white' }, '& .MuiSelect-root': { backgroundColor: 'grey.700' }}}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6} md={4}>
                         <FormControl fullWidth>
-                          <InputLabel id={`staff-city-label-${index}`} sx={{ color: 'white' }} shrink>
+                          <InputLabel id={`staff-city-label-${index}`} shrink>
                             Origin City *
                           </InputLabel>
                           <Select
@@ -224,7 +223,6 @@ const AddFruit = () => {
                             required
                             displayEmpty
                             notched
-                            sx={{ backgroundColor: 'grey.700', color: 'white' }}
                           >
                             <MenuItem value="" disabled>
                               <em>Select Origin City</em>
@@ -247,7 +245,6 @@ const AddFruit = () => {
                           required
                           placeholder="e.g., 1.20"
                           InputProps={{ inputProps: { min: 0, step: 0.01 } }}
-                          sx={{ input: { color: 'white' }, label: { color: 'white' }}}
                         />
                       </Grid>
                     </Grid>
