@@ -62,23 +62,8 @@ app.use(express.json());
 // Connect MongoDB
 connectDB();
 
-// Register Routes
-app.use('/', indexRoutes);
-app.use('/', citiesDBRoutes);
-app.use('/', staffDBRoutes);
-app.use('/', fruitsDBRoutes);
-app.use('/', inventoryDBRoutes);
-app.use('/', borrowsDBRoutes);
-app.use('/', deliveriesDBRoutes);
-app.use('/', locationsDBRoutes);
-
-// Health check for Vercel
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', time: new Date().toISOString() });
-});
-
 // ----------------------
-// STATIC FILES (Frontend)
+// STATIC FILES (Frontend) - 必須在 API 路由之前
 // ----------------------
 // 在生產環境中服務前端靜態文件（合併部署）
 if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
@@ -88,6 +73,7 @@ if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'tru
     // API 路由前綴列表（這些路由不應該返回前端頁面）
     const apiRoutes = [
         '/api/',
+        '/api/info',  // 添加新的 API 信息端點
         '/server/',
         '/cities',
         '/staff',
@@ -113,9 +99,9 @@ if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'tru
     }));
     
     // React Router 支持：所有非 API 路由都返回 index.html
-    // 使用 app.use 作為最後的中間件來處理所有未匹配的路由（Express 5.x 兼容）
+    // 使用 app.use 作為中間件來處理所有請求，但讓 API 路由優先
     app.use((req, res, next) => {
-        // 如果是 API 路由，跳過（讓 Express 返回 404）
+        // 如果是 API 路由，跳過（讓後面的 API 路由處理）
         if (isApiRoute(req.path)) {
             return next();
         }
@@ -127,15 +113,35 @@ if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'tru
             return next();
         }
         
-        // 否則返回 React 應用的 index.html
-        res.sendFile(path.join(frontendBuildPath, 'index.html'), (err) => {
-            if (err) {
-                console.error('Error sending index.html:', err);
-                res.status(500).send('Error loading application');
-            }
-        });
+        // 對於所有非 API 的 GET 請求，返回 React 應用的 index.html（支持 React Router）
+        if (req.method === 'GET') {
+            return res.sendFile(path.join(frontendBuildPath, 'index.html'), (err) => {
+                if (err) {
+                    console.error('Error sending index.html:', err);
+                    res.status(500).send('Error loading application');
+                }
+            });
+        }
+        
+        next();
     });
 }
+
+// Register API Routes
+// 注意：將 indexRoutes 改為 /api/info，避免攔截根路徑
+app.use('/api/info', indexRoutes);  // 原來的根路徑 API 現在在 /api/info
+app.use('/', citiesDBRoutes);
+app.use('/', staffDBRoutes);
+app.use('/', fruitsDBRoutes);
+app.use('/', inventoryDBRoutes);
+app.use('/', borrowsDBRoutes);
+app.use('/', deliveriesDBRoutes);
+app.use('/', locationsDBRoutes);
+
+// Health check for Vercel
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', time: new Date().toISOString() });
+});
 
 // ----------------------
 // SERVER STARTUP
