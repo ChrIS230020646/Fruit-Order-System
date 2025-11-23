@@ -1,48 +1,61 @@
-
-
-
+// 正确的API地址获取方式
 function getApiBaseUrl() {
-  // 1. Cloud / Vercel
-  if (process.env.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
-  }
+    // 优先使用环境变量（云端部署时）
+    if (process.env.REACT_APP_API_URL) {
+        console.log('使用环境变量API地址:', process.env.REACT_APP_API_URL);
+        return process.env.REACT_APP_API_URL;
+    }
 
-  // 2. Local development
-  const currentHostname = window.location.hostname;
-  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
-    return "http://localhost:3020";
-  }
+    // 本地开发模式
+    const currentHostname = window.location.hostname;
+    
+    console.log('当前访问地址:', window.location.href);
+    console.log('实时 Hostname:', currentHostname);
+    
+    // 本地开发
+    if (currentHostname === 'localhost' || currentHostname === '127.0.0.1') {
+        console.log('本地开发模式');
+        return 'http://localhost:3020';
+    }
 
-  return "";
+    // 局域网访问（手机/其他设备测试）
+    if (currentHostname.startsWith('192.168.') || currentHostname.startsWith('172.')) {
+        console.log('局域网访问模式');
+        return `http://${currentHostname}:3020`;
+    }
+
+    // 默认回退（不应该到达这里）
+    console.warn('未配置API地址，使用默认localhost');
+    return 'http://localhost:3020';
 }
 
 const api = getApiBaseUrl();
-console.log("API address:", api);
+console.log('最终使用的API地址:', api);
 
-
+// 后端连接检查
 async function checkBackendConnection() {
     try {
-        const response = await fetch(`${api}/server/info`, {
+        const response = await fetch(`${api}/api/health`, {  // 改成 /api/health
             method: 'GET',
             credentials: 'include'
         });
-        console.log('check:', response.ok ? 'succesful' : 'false');
+        console.log('后端连接检查:', response.ok ? '成功' : '失败');
         return response.ok;
     } catch (error) {
-        console.error('false:', error.message);
+        console.error('后端连接失败:', error.message);
         return false;
     }
 }
 
-
+// API调用封装
 async function callAPI(endpoint, options = {}) {
     const url = `${api}${endpoint}`;
     
-    console.log(`API: ${url}`, options);
+    console.log(`调用API: ${url}`, options);
 
     try {
         const defaultOptions = {
-            credentials: 'include', 
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 ...options.headers,
@@ -52,35 +65,28 @@ async function callAPI(endpoint, options = {}) {
 
         const response = await fetch(url, defaultOptions);
         
-        console.log(`API: ${response.status} ${response.statusText}`);
-        
-        
-        const setCookieHeader = response.headers.get('set-cookie');
-        if (setCookieHeader) {
-            console.log(' Cookie:', setCookieHeader);
-        }
+        console.log(`API响应: ${response.status} ${response.statusText}`);
         
         if (!response.ok) {
             const errorText = await response.text();
-            console.error(`HTTP not: ${response.status}`, errorText);
+            console.error(`HTTP错误: ${response.status}`, errorText);
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
         const data = await response.json();
-        console.log(` API succesful:`, data);
+        console.log(`API调用成功:`, data);
         return data;
         
     } catch (error) {
-        console.error(` API file [${endpoint}]:`, error.message);
+        console.error(`API调用失败 [${endpoint}]:`, error.message);
         
-        
-        let userFriendlyError = 'web false';
+        let userFriendlyError = '网络请求失败';
         if (error.message.includes('Failed to fetch')) {
-            userFriendlyError = ` (${api})`;
+            userFriendlyError = `无法连接到后端服务器 (${api})`;
         } else if (error.message.includes('Network Error')) {
-            userFriendlyError = 'not find Network';
+            userFriendlyError = '网络连接错误';
         } else if (error.message.includes('HTTP')) {
-            userFriendlyError = `not: ${error.message}`;
+            userFriendlyError = `服务器错误: ${error.message}`;
         }
         
         return {
@@ -91,13 +97,9 @@ async function callAPI(endpoint, options = {}) {
     }
 }
 
-
 async function getAPI(endpoint) {
-    return callAPI(endpoint, {
-        method: 'GET'
-    });
+    return callAPI(endpoint, { method: 'GET' });
 }
-
 
 async function postAPI(endpoint, data) {
     return callAPI(endpoint, {
@@ -106,7 +108,6 @@ async function postAPI(endpoint, data) {
     });
 }
 
-
 async function putAPI(endpoint, data) {
     return callAPI(endpoint, {
         method: 'PUT',
@@ -114,11 +115,8 @@ async function putAPI(endpoint, data) {
     });
 }
 
-
 async function deleteAPI(endpoint) {
-    return callAPI(endpoint, {
-        method: 'DELETE'
-    });
+    return callAPI(endpoint, { method: 'DELETE' });
 }
 
 const GetApi = {

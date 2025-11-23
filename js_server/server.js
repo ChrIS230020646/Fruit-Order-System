@@ -17,16 +17,30 @@ const app = express();
 
 app.use(cookieParser());
 
-// CORS middleware
+// ==================== CORS配置 ====================
+// 支持本地开发 + 云端部署
 app.use((req, res, next) => {
     const origin = req.headers.origin;
+    
+    // 允许的来源列表
+    const allowedOrigins = [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        process.env.FRONTEND_URL,  // 从环境变量读取云端前端地址
+    ].filter(Boolean); // 过滤掉undefined
 
-    if (origin && (
+    // 本地开发模式：允许所有192.168和172的局域网IP
+    const isLocalNetwork = origin && (
         origin.includes('localhost') ||
         origin.includes('127.0.0.1') ||
         origin.includes('192.168.') ||
         origin.includes('172.')
-    )) {
+    );
+
+    // Vercel前端域名模式匹配
+    const isVercelDomain = origin && origin.match(/https:\/\/.*\.vercel\.app$/);
+
+    if (allowedOrigins.includes(origin) || isLocalNetwork || isVercelDomain) {
         res.header('Access-Control-Allow-Origin', origin);
     }
 
@@ -55,39 +69,37 @@ app.use('/', borrowsDBRoutes);
 app.use('/', deliveriesDBRoutes);
 app.use('/', locationsDBRoutes);
 
-// Health check for Vercel
+// Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', time: new Date().toISOString() });
+    res.json({ 
+        status: 'ok', 
+        time: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
 });
 
-// ----------------------
-// LOCAL DEV MODE
-// ----------------------
-if (!process.env.VERCEL) {
-    const PORT = process.env.PORT || 3020;
+// ==================== 启动服务器 ====================
+const PORT = process.env.PORT || 3020;
 
-    function getLocalIP() {
-        const interfaces = os.networkInterfaces();
-        for (const interfaceName in interfaces) {
-            for (const net of interfaces[interfaceName]) {
-                if (net.family === 'IPv4' && !net.internal && net.address.startsWith('192.168.')) {
-                    return net.address;
-                }
+function getLocalIP() {
+    const interfaces = os.networkInterfaces();
+    for (const interfaceName in interfaces) {
+        for (const net of interfaces[interfaceName]) {
+            if (net.family === 'IPv4' && !net.internal && net.address.startsWith('192.168.')) {
+                return net.address;
             }
         }
-        return 'localhost';
     }
-
-    const HOST = getLocalIP();
-
-    app.listen(PORT, '0.0.0.0', () => {
-        console.log(`Server running`);
-        console.log(`Local: http://localhost:${PORT}`);
-        console.log(`Network: http://${HOST}:${PORT}`);
-    });
+    return 'localhost';
 }
 
-// Export for Vercel
-module.exports = app;
+const HOST = getLocalIP();
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Local: http://localhost:${PORT}`);
+    console.log(`Network: http://${HOST}:${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
 
 module.exports = app;

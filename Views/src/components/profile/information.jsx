@@ -220,7 +220,7 @@ const Profile = ({ onEditInformation }) => {
                   p: 2, 
                   bgcolor: (theme) => theme.palette.mode === 'dark'
                     ? '#1a202c'
-                    : '#00000', 
+                    : '#f8fafc', 
                   border: '1px solid', 
                   borderColor: (theme) => theme.palette.divider,
                   borderRadius: 2,
@@ -230,7 +230,7 @@ const Profile = ({ onEditInformation }) => {
                     boxShadow: '0 2px 8px rgba(99, 102, 241, 0.1)',
                   },
                 }}>
-                    <Typography variant="body2" color="primary.main" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                       <Person sx={{ fontSize: 18, mr: 1, color: 'primary.main' }} />
                       Full Name
                     </Typography>
@@ -245,7 +245,7 @@ const Profile = ({ onEditInformation }) => {
                   p: 2, 
                   bgcolor: (theme) => theme.palette.mode === 'dark'
                     ? '#1a202c'
-                    : '#00000', 
+                    : '#f8fafc', 
                   border: '1px solid', 
                   borderColor: (theme) => theme.palette.divider,
                   borderRadius: 2,
@@ -270,7 +270,7 @@ const Profile = ({ onEditInformation }) => {
                   p: 2, 
                   bgcolor: (theme) => theme.palette.mode === 'dark'
                     ? '#1a202c'
-                    : '#00000', 
+                    : '#f8fafc', 
                   border: '1px solid', 
                   borderColor: (theme) => theme.palette.divider,
                   borderRadius: 2,
@@ -295,7 +295,7 @@ const Profile = ({ onEditInformation }) => {
                   p: 2, 
                   bgcolor: (theme) => theme.palette.mode === 'dark'
                     ? '#1a202c'
-                    : '#00000', 
+                    : '#f8fafc', 
                   border: '1px solid', 
                   borderColor: (theme) => theme.palette.divider,
                   borderRadius: 2,
@@ -349,7 +349,7 @@ const Profile = ({ onEditInformation }) => {
                     p: 2, 
                     bgcolor: (theme) => theme.palette.mode === 'dark'
                       ? '#1a202c'
-                      : '#00000', 
+                      : '#f8fafc', 
                     border: '1px solid', 
                     borderColor: (theme) => theme.palette.divider,
                     borderRadius: 2,
@@ -374,7 +374,7 @@ const Profile = ({ onEditInformation }) => {
                     p: 2, 
                     bgcolor: (theme) => theme.palette.mode === 'dark'
                       ? '#1a202c'
-                      : '#00000', 
+                      : '#f0fdf4', 
                     border: '1px solid', 
                     borderColor: (theme) => theme.palette.divider,
                     borderRadius: 2,
@@ -398,7 +398,7 @@ const Profile = ({ onEditInformation }) => {
                     p: 2, 
                     bgcolor: (theme) => theme.palette.mode === 'dark'
                       ? '#1a202c'
-                      : '#00000', 
+                      : '#f0f9ff', 
                     border: '1px solid', 
                     borderColor: (theme) => theme.palette.divider,
                     borderRadius: 2,
@@ -425,7 +425,7 @@ const Profile = ({ onEditInformation }) => {
                   p: 2, 
                   bgcolor: (theme) => theme.palette.mode === 'dark'
                     ? '#1a202c'
-                    : '#00000', 
+                    : '#f8fafc', 
                   border: '1px solid', 
                   borderColor: (theme) => theme.palette.divider,
                   borderRadius: 2,

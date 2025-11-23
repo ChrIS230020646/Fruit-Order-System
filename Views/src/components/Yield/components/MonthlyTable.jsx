@@ -11,7 +11,9 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
       <CardContent sx={{ p: 0 }}>
         <Box sx={{ 
           p: 3,
-          background: '#4A90E2',
+          background: (theme) => theme.palette.mode === 'dark'
+            ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)'
+            : 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
         }}>
           <Typography variant="h6" sx={{ 
@@ -19,12 +21,12 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
             display: 'flex',
             alignItems: 'center',
             gap: 1,
-            color: 'white', 
+            color: 'text.primary',
           }}>
             <Box sx={{ 
               width: 4, 
               height: 24, 
-              background: 'white',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               borderRadius: 1,
             }} />
             Detailed Monthly Delivery Report
@@ -37,7 +39,7 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                 <TableCell sx={{ 
                   backgroundColor: (theme) => theme.palette.mode === 'dark' 
                     ? '#1a202c' 
-                    : '#8AB8E8',
+                    : '#f8fafc',
                   fontWeight: 600,
                   fontSize: '0.875rem',
                   color: (theme) => theme.palette.mode === 'dark' 
@@ -55,7 +57,7 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                       textTransform: 'capitalize',
                       backgroundColor: (theme) => theme.palette.mode === 'dark' 
                         ? '#1a202c' 
-                        : '#8AB8E8',
+                        : '#f8fafc',
                       fontWeight: 600,
                       fontSize: '0.875rem',
                       color: (theme) => theme.palette.mode === 'dark' 
@@ -73,7 +75,7 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                     fontWeight: 600,
                     backgroundColor: (theme) => theme.palette.mode === 'dark' 
                       ? '#1a202c' 
-                      : '#8AB8E8',
+                      : '#f8fafc',
                     fontSize: '0.875rem',
                     color: (theme) => theme.palette.mode === 'dark' 
                       ? '#ffffff' 
@@ -89,11 +91,22 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
               {monthlyReport.map((monthData, index) => (
                 <TableRow 
                   key={index}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.05)'
+                        : '#f8fafc',
+                    },
+                    '&:nth-of-type(even)': {
+                      backgroundColor: (theme) => theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.02)'
+                        : '#fafbfc',
+                    },
+                  }}
                 >
                   <TableCell sx={{ 
                     fontWeight: 600,
                     color: 'text.primary',
-                    backgroundColor: '#00000', // 固定黑色背景
                   }}>
                     {monthData.monthName}
                   </TableCell>
@@ -103,14 +116,6 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                       align="center"
                       sx={{
                         color: 'text.primary',
-                        backgroundColor: '#808080', 
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        '&:hover': {
-                          backgroundColor: '#4b5563', 
-                          color: '#d1d5db',
-                          fontWeight: 600,
-                        },
                       }}
                     >
                       {(monthData[fruit] || 0).toLocaleString('en-US')}
@@ -121,18 +126,9 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                     sx={{ 
                       fontWeight: 700, 
                       backgroundColor: (theme) => theme.palette.mode === 'dark'
-                        ? 'rgba(99, 102, 241, 0.25)' 
-                        : '#54534D', 
+                        ? 'rgba(99, 102, 241, 0.15)'
+                        : '#f0f4ff',
                       color: 'primary.main',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      '&:hover': {
-                        backgroundColor: (theme) => theme.palette.mode === 'dark'
-                          ? 'rgba(99, 102, 241, 0.4)' 
-                          : '#c7d2fe',
-                        color: 'primary.dark',
-                        fontWeight: 800,
-                      },
                     }}
                   >
                     {monthData.total.toLocaleString('en-US')}
@@ -140,7 +136,6 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                 </TableRow>
               ))}
               
-              {/* Yearly Total row */}
               <TableRow sx={{ 
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               }}>
