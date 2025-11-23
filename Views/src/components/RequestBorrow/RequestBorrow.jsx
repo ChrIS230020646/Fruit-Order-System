@@ -324,7 +324,7 @@ const RequestBorrow = () => {
 
       console.log('Sending data with _id:', JSON.stringify(submitData, null, 2));
 
-      const response = await fetch(`${GetApi.api}/borrows/insert`, {
+      const response = await fetch(`${GetApi.api}/borrows`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

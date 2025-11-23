@@ -141,7 +141,7 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${GetApi.api}/deliveries/list`);
+      const response = await fetch(`${GetApi.api}/deliveries`);
       const result = await response.json();
       
       if (result.success && result.data && Array.isArray(result.data)) {
@@ -209,7 +209,7 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
     if (!deleteDialog.delivery) return;
 
     try {
-      const response = await fetch(`${GetApi.api}/deliveries/delete/${deleteDialog.delivery._id}`, {
+      const response = await fetch(`${GetApi.api}/deliveries/${deleteDialog.delivery._id}`, {
         method: 'DELETE'
       });
 

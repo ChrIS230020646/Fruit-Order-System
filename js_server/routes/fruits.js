@@ -4,30 +4,6 @@ const CountriesDB = require('../orderDB/countriesDB');
 const router = express.Router();
 
 
-router.get('/fruits/list', async (req, res) => {
-    try {
-        const result = await fruitDB.getAllFruits();
-        
-        if (result.success) {
-            res.json({
-                collection: 'fruits',
-                count: result.count,
-                data: result.data
-            });
-        } else {
-            res.status(500).json({
-                error: 'Failed to retrieve city data',
-                message: result.error
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            error: 'Server error',
-            message: error.message
-        });
-    }
-});
-
 router.get('/fruits', async (req, res) => {
     try {
         const result = await fruitDB.getAllFruits();
@@ -69,7 +45,7 @@ router.get('/fruits', async (req, res) => {
 
 
 
-router.put('/fruits/update/:id', async (req, res) => {
+router.put('/fruits/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { name, originCountryId, price, imageURL } = req.body;
@@ -100,7 +76,7 @@ router.put('/fruits/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/fruits/delete/:id', async (req, res) => {
+router.delete('/fruits/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -125,7 +101,7 @@ router.delete('/fruits/delete/:id', async (req, res) => {
 });
 
 
-router.post("/fruits/insert/", async (req, res) => {
+router.post("/fruits", async (req, res) => {
     try {
         const { fruitsArray } = req.body;
         

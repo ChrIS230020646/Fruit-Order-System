@@ -84,7 +84,7 @@ const OnEditDelivery = ({
       };
 
       
-      const response = await fetch(`${GetApi.api}/deliveries/update/${delivery._id}`, {
+      const response = await fetch(`${GetApi.api}/deliveries/${delivery._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

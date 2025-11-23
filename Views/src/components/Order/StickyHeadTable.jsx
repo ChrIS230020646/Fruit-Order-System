@@ -77,7 +77,7 @@ export default function InventoryTable({ onEditInventory }) {
         }
 
         
-        const response = await fetch(GetApi.api + '/inventory/list');
+        const response = await fetch(GetApi.api + '/inventory');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -87,23 +87,13 @@ export default function InventoryTable({ onEditInventory }) {
         console.log('API Response:', data); 
         
         
-        let inventoryArray;
         if (data.data && Array.isArray(data.data)) {
-          inventoryArray = data.data;
+          setInventoryData(data.data);
         } else if (Array.isArray(data)) {
-          inventoryArray = data;
+          setInventoryData(data);
         } else {
           throw new Error('Invalid data format received from API');
         }
-        
-        // 按ID升序排序
-        const sortedInventory = inventoryArray.sort((a, b) => {
-          const idA = Number(a._id) || 0;
-          const idB = Number(b._id) || 0;
-          return idA - idB;
-        });
-        
-        setInventoryData(sortedInventory);
       } catch (err) {
         console.error('Fetch error:', err);
         setError('Network request failed: ' + err.message);
@@ -137,13 +127,6 @@ export default function InventoryTable({ onEditInventory }) {
         (item._id && item._id.toString().toLowerCase().includes(term))
       );
     }
-
-    // 按ID升序排序
-    filtered = filtered.sort((a, b) => {
-      const idA = Number(a._id) || 0;
-      const idB = Number(b._id) || 0;
-      return idA - idB;
-    });
 
     setFilteredData(filtered);
     setPage(0); 

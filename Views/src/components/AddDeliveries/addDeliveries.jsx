@@ -225,7 +225,7 @@ const AddDeliveries = () => {
 
       console.log('Submitting data:', submitData);
 
-      const response = await fetch(`${GetApi.api}/deliveries/insert`, {
+      const response = await fetch(`${GetApi.api}/deliveries`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

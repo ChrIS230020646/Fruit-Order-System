@@ -182,7 +182,7 @@ const handleSubmit = async () => {
   setLoading(true);
 
   try {
-    const response = await fetch(`${Getapi.api}/staff/insert`, {
+    const response = await fetch(`${Getapi.api}/staff`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

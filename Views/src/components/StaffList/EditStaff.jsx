@@ -71,7 +71,7 @@ const EditStaff = ({ staffData, onBack, onSave }) => {
     try {
       setLoading(true);
       
-      const response = await fetch(GetApi.api + '/staff/update/' + staffData._id, {
+      const response = await fetch(GetApi.api + '/staff/' + staffData._id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

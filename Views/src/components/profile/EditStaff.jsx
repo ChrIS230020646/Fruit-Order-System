@@ -138,7 +138,7 @@ const EditStaff = ({ onCancel, onSave }) => {
       console.log('Updating staff with data:', updateData);
 
       
-      const response = await fetch(`${GetApi.api}/staff/update/${formData._id}`, {
+      const response = await fetch(`${GetApi.api}/staff/${formData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -200,7 +200,7 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
     if (!deleteDialog.fruit) return;
 
     try {
-      const response = await fetch(`${GetApi.api}/fruits/delete/${deleteDialog.fruit._id}`, {
+      const response = await fetch(`${GetApi.api}/fruits/${deleteDialog.fruit._id}`, {
         method: 'DELETE'
       });
 

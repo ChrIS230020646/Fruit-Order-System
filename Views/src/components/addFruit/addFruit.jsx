@@ -128,7 +128,7 @@ const AddFruit = () => {
         imageURL: null 
       }));
 
-      const response = await fetch(`${GetApi.api}/fruits/insert/`, {
+      const response = await fetch(`${GetApi.api}/fruits`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

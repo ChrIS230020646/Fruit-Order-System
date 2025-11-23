@@ -22,7 +22,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import GetApi from '../GetAPI/Getapi';
 
 const api = GetApi.api + "/borrows";
-const getUpdateApi = (id) => `${GetApi.api}/borrows/update/${id}`;
+const getUpdateApi = (id) => `${GetApi.api}/borrows/${id}`;
 
 const columns = [ 
   { id: '_id', label: 'ID', minWidth: 50 },

@@ -37,7 +37,7 @@ const SimpleAddInventory = () => {
       try {
         setLoading(true);
         const [fruitsRes, locationsRes] = await Promise.all([
-          fetch(`${Getapi.api}/fruits/list`),
+          fetch(`${Getapi.api}/fruits`),
           fetch(`${Getapi.api}/locations`)
         ]);
 
@@ -127,7 +127,7 @@ const SimpleAddInventory = () => {
 
       console.log('Submitting inventory:', inventoryArray);
 
-      const response = await fetch(`${Getapi.api}/inventory/insert/`, {
+      const response = await fetch(`${Getapi.api}/inventory`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

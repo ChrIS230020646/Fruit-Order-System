@@ -289,7 +289,7 @@ router.get('/staff/information/:email', async (req, res) => {
     }
 });
 
-router.put('/staff/update/:id', async (req, res) => {
+router.put('/staff/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { name, email, password, locationId, phone, job, status } = req.body;
@@ -323,7 +323,7 @@ router.put('/staff/update/:id', async (req, res) => {
     }
 });
 
-router.post("/staff/insert/", async (req, res) => {
+router.post("/staff", async (req, res) => {
     try {
         const { staffArray } = req.body;
         
@@ -358,7 +358,7 @@ router.post("/staff/insert/", async (req, res) => {
     }
 });
 
-router.delete('/staff/delete/:id', async (req, res) => {
+router.delete('/staff/:id', async (req, res) => {
     try {
         const { id } = req.params;
 

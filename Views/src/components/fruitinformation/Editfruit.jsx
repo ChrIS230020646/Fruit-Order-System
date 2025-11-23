@@ -81,7 +81,7 @@ const EditFruit = ({ fruitData, onBack, onSave }) => {
 
     setLoading(true);
     try {
-      const api = GetApi.api + `/fruits/update/${formData._id}`;
+      const api = GetApi.api + `/fruits/${formData._id}`;
       
       const updateData = {
         name: formData.name,

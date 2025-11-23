@@ -56,7 +56,7 @@ router.post('/locations', async (req, res) => {
     }
 });
 
-router.put('/locations/update/:id', async (req, res) => {
+router.put('/locations/:id', async (req, res) => {
     try {
         const locationId = parseInt(req.params.id);
         const updateData = req.body;
@@ -87,7 +87,7 @@ router.put('/locations/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/locations/delete/:id', async (req, res) => {
+router.delete('/locations/:id', async (req, res) => {
     try {
         const locationId = parseInt(req.params.id);
         

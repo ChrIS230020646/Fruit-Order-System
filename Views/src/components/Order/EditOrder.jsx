@@ -56,7 +56,7 @@ const EditInventory = ({ inventoryData, onBack, onSave }) => {
       });
 
       
-      const response = await fetch(`${GetApi.api}/inventory/update/${inventoryData._id}`, {
+      const response = await fetch(`${GetApi.api}/inventory/${inventoryData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

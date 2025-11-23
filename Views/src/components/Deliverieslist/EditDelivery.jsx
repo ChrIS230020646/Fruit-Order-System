@@ -83,7 +83,7 @@ const EditDelivery = ({ deliveryData, onBack, onSave }) => {
       };
 
       // Update delivery
-      const response = await fetch(`${GetApi.api}/deliveries/update/${deliveryData._id}`, {
+      const response = await fetch(`${GetApi.api}/deliveries/${deliveryData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

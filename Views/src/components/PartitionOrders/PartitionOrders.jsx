@@ -52,7 +52,7 @@ export default function InventoryTable({ onEditInventory }) {
     const fetchInventoryData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(GetApi.api + '/inventory/list');
+        const response = await fetch(GetApi.api + '/inventory');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

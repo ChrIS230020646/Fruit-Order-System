@@ -3,7 +3,7 @@ const router = express.Router();
 const DeliveriesDB = require('../orderDB/deliveriesDB');
 const FruitsDB = require('../orderDB/fruitsDB');
 
-router.put('/deliveries/update/:id', async (req, res) => {
+router.put('/deliveries/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
@@ -49,7 +49,7 @@ router.put('/deliveries/update/:id', async (req, res) => {
   }
 });
 
-router.get('/deliveries/list', async (req, res) => {
+router.get('/deliveries', async (req, res) => {
   try {
     const [deliveriesResult, fruitsResult] = await Promise.all([
       DeliveriesDB.getAllDeliveries(),
@@ -225,7 +225,7 @@ router.get('/deliveries/annual-summary/:year', async (req, res) => {
     }
 });
 
-router.delete('/deliveries/delete/:id', async (req, res) => {
+router.delete('/deliveries/:id', async (req, res) => {
   try {
     const deliveryId = req.params.id;
 
@@ -268,7 +268,7 @@ router.delete('/deliveries/delete/:id', async (req, res) => {
   }
 });
 
-router.post('/deliveries/insert', async (req, res) => {
+router.post('/deliveries', async (req, res) => {
   try {
     const {
       _id, 

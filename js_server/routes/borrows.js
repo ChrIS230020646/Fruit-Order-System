@@ -28,7 +28,7 @@ router.get('/borrows', async (req, res) => {
     }
 });
 
-router.put('/borrows/update/:id', async (req, res) => {
+router.put('/borrows/:id', async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
         const result = await BorrowDB.updateBorrow(id, {
@@ -54,7 +54,7 @@ router.put('/borrows/update/:id', async (req, res) => {
         }
 });
 
-router.post("/borrows/insert/", async (req, res) => {
+router.post("/borrows", async (req, res) => {
     try {
         const { borrowsArray } = req.body;
         
@@ -92,7 +92,7 @@ router.post("/borrows/insert/", async (req, res) => {
     }
 });
 
-router.delete('/borrows/delete/:id', async (req, res) => {
+router.delete('/borrows/:id', async (req, res) => {
     try {
         const { id } = req.params;
 

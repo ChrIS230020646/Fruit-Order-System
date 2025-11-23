@@ -28,7 +28,7 @@ router.get('/inventory', async (req, res) => {
     }
 });
 
-router.get('/inventory/list', async (req, res) => {
+router.get('/inventory', async (req, res) => {
     try {
         const result = await inventoryDB.getAllInventory();
         const fruits = await fruitsDB.getAllFruits();
@@ -68,7 +68,7 @@ router.get('/inventory/list', async (req, res) => {
     }
 });
 
-router.put('/inventory/update/:id', async (req, res) => {
+router.put('/inventory/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { fruitId, locationId, quantity } = req.body;
@@ -98,7 +98,7 @@ router.put('/inventory/update/:id', async (req, res) => {
     }
 });
 
-router.post('/inventory/insert', async (req, res) => {
+router.post('/inventory', async (req, res) => {
     try {
         const { inventoryArray } = req.body;
         
@@ -133,7 +133,7 @@ router.post('/inventory/insert', async (req, res) => {
     }
 });
 
-router.delete('/inventory/delete/:id', async (req, res) => {
+router.delete('/inventory/:id', async (req, res) => {
     try {
         const { id } = req.params;
 

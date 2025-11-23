@@ -101,7 +101,7 @@ router.post('/cities', async (req, res) => {
 });
 
 
-router.put('/cities/update/:id', async (req, res) => {
+router.put('/cities/:id', async (req, res) => {
     try {
         const cityId = parseInt(req.params.id);
         const updateData = req.body;
@@ -132,7 +132,7 @@ router.put('/cities/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/cities/delete/:id', async (req, res) => {
+router.delete('/cities/:id', async (req, res) => {
     try {
         const cityId = parseInt(req.params.id);
         
