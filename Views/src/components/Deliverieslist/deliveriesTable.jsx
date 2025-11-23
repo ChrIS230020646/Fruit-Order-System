@@ -529,7 +529,6 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
           {snackbar.message}
         </Alert>
       </Snackbar>
-      </Paper>
     </Box>
   );
 }
