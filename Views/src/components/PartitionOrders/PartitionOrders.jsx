@@ -166,7 +166,7 @@ export default function InventoryTable({ onEditInventory }) {
       <Paper sx={{ 
         width: '100%', 
         maxWidth: '100%',
-        overflow: 'visible',
+        overflow: 'hidden',
         borderRadius: 3,
         boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05)',
       }}>
@@ -174,6 +174,8 @@ export default function InventoryTable({ onEditInventory }) {
         p: 3,
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         color: 'white',
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
       }}>
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5, color: 'white' }}>
           Partition Inventory
