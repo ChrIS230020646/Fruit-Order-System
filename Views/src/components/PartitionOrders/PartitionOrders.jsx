@@ -161,7 +161,7 @@ export default function InventoryTable({ onEditInventory }) {
       margin: '0 auto',
       width: '100%',
       px: { xs: 1, sm: 2, md: 3 },
-      overflow: 'hidden',
+      overflow: 'visible',
     }}>
       <Paper sx={{ 
         width: '100%', 
