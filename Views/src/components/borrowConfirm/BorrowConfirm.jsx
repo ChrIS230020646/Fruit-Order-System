@@ -223,7 +223,7 @@ export default function StickyHeadTable() {
 
   return (
     <Box sx={{ 
-      maxWidth: '100%',
+      maxWidth: 1400,
       margin: '0 auto',
       width: '100%',
       px: { xs: 1, sm: 2, md: 3 },
@@ -314,6 +314,7 @@ export default function StickyHeadTable() {
         border: '1px solid #e2e8f0',
         mx: 3,
         mb: 3,
+        maxWidth: 'calc(100% - 48px)',
         '&::-webkit-scrollbar': {
           height: '8px',
         },

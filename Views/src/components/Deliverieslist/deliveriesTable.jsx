@@ -363,6 +363,8 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
           border: '1px solid #e2e8f0',
           mx: 3,
           mb: 3,
+          width: 'calc(100% - 48px)',
+          maxWidth: 'calc(100% - 48px)',
         }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -527,6 +529,7 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </>
+      </Paper>
+    </Box>
   );
 }

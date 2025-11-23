@@ -289,6 +289,10 @@ export default function InventoryTable({ onEditInventory }) {
         maxHeight: 600,
         borderRadius: 2,
         border: '1px solid #e2e8f0',
+        mx: 3,
+        mb: 3,
+        width: 'calc(100% - 48px)',
+        maxWidth: 'calc(100% - 48px)',
       }}>
         <Table stickyHeader aria-label="inventory table">
           <TableHead>

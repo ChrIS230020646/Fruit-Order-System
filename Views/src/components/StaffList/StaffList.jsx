@@ -190,6 +190,7 @@ export default function StaffTable({ onEditStaff }) {
   }
 
   return (
+    <Box sx={{ maxWidth: 1400, margin: '0 auto', width: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
     <Paper sx={{ 
       width: '100%', 
       overflow: 'hidden',
@@ -267,6 +268,10 @@ export default function StaffTable({ onEditStaff }) {
         maxHeight: 600,
         borderRadius: 2,
         border: '1px solid #e2e8f0',
+        mx: 3,
+        mb: 3,
+        width: 'calc(100% - 48px)',
+        maxWidth: 'calc(100% - 48px)',
       }}>
         <Table stickyHeader aria-label="staff table">
           <TableHead>
@@ -377,5 +382,6 @@ export default function StaffTable({ onEditStaff }) {
         }
       />
     </Paper>
+    </Box>
   );
 }

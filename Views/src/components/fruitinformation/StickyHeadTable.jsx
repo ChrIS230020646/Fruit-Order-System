@@ -277,7 +277,7 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
   }
 
   return (
-    <>
+    <Box sx={{ maxWidth: 1400, margin: '0 auto', width: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
       <Paper sx={{ 
         width: '100%', 
         maxWidth: '100%',
@@ -365,6 +365,7 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
           border: '1px solid #e2e8f0',
           mx: 3,
           mb: 3,
+          maxWidth: 'calc(100% - 48px)',
           '&::-webkit-scrollbar': {
             height: '8px',
           },
@@ -557,6 +558,7 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </>
+      </Paper>
+    </Box>
   );
 }
