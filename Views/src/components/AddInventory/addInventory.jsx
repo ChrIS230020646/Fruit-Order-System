@@ -54,14 +54,45 @@ const SimpleAddInventory = () => {
         
         
         const fruitsArray = fruitsData.data || fruitsData;
-        
         const locationsArray = locationsData.data || locationsData;
 
-        console.log('Processed Fruits:', fruitsArray);
-        console.log('Processed Locations:', locationsArray);
+        
+        const processedFruits = Array.isArray(fruitsArray) ? fruitsArray.map(fruit => {
+            
+            if (fruit._doc) {
+                return fruit._doc;
+            }
+            
+            return {
+                _id: fruit._id || fruit.id,
+                name: fruit.name || 'Unknown Fruit',
+                originCountryId: fruit.originCountryId,
+                price: fruit.price,
+                unit: fruit.unit,
+                description: fruit.description,
+                imageURL: fruit.imageURL,
+                originCountryName: fruit.originCountryName
+            };
+        }) : [];
 
-        setFruits(Array.isArray(fruitsArray) ? fruitsArray : []);
-        setLocations(Array.isArray(locationsArray) ? locationsArray : []);
+        const processedLocations = Array.isArray(locationsArray) ? locationsArray.map(location => {
+            
+            if (location._doc) {
+                return location._doc;
+            }
+            
+            return {
+                _id: location._id || location.id,
+                address: location.address || 'Unknown Address',
+                type: location.type || 'Unknown Type'
+            };
+        }) : [];
+
+        console.log('Processed Fruits:', processedFruits);
+        console.log('Processed Locations:', processedLocations);
+
+        setFruits(processedFruits);
+        setLocations(processedLocations);
       } catch (error) {
         console.error('Error fetching data:', error);
         setSnackbar({

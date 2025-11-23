@@ -18,9 +18,16 @@ router.get('/fruits', async (req, res) => {
             
             
             const processedFruits = result.data.map(fruit => {
+                const fruitObj = fruit.toObject ? fruit.toObject() : fruit;
                 return {
-                    ...fruit,
-                    originCountryName: countryMap[fruit.originCountryId] || 'Unknown Country'
+                    _id: fruitObj._id,
+                    name: fruitObj.name,
+                    originCountryId: fruitObj.originCountryId,
+                    price: fruitObj.price,
+                    unit: fruitObj.unit,
+                    description: fruitObj.description,
+                    imageURL: fruitObj.imageURL,
+                    originCountryName: countryMap[fruitObj.originCountryId] || 'Unknown Country'
                 };
             });
             
