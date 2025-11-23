@@ -22,21 +22,21 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 
 const columns = [
-  { id: '_id', label: 'ID', minWidth: 150 },
-  { id: 'fruitName', label: 'Fruit Name', minWidth: 120 },
-  { id: 'locationId', label: 'Location ID', minWidth: 80 },
-  { id: 'locationName', label: 'Location Name', minWidth: 190 },
+  { id: '_id', label: 'ID', minWidth: 100 },
+  { id: 'fruitName', label: 'Fruit Name', minWidth: 100 },
+  { id: 'locationId', label: 'Location ID', minWidth: 70 },
+  { id: 'locationName', label: 'Location Name', minWidth: 150 },
   {
     id: 'quantity',
     label: 'Quantity',
-    minWidth: 100,
+    minWidth: 90,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'actions',
     label: 'Actions',
-    minWidth: 220,
+    minWidth: 150,
     align: 'center',
   },
 ];
@@ -212,7 +212,9 @@ export default function InventoryTable({ onEditInventory }) {
 
   return (
     <Paper sx={{ 
-      width: '100%', 
+      width: '100%',
+      maxWidth: 1400,
+      margin: '0 auto',
       overflow: 'hidden',
       borderRadius: 3,
       boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05)',
