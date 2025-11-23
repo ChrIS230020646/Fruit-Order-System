@@ -7,34 +7,10 @@ const router = express.Router();
 router.get('/inventory', async (req, res) => {
     try {
         const result = await inventoryDB.getAllInventory();
-        
-        if (result.success) {
-            res.json({
-                collection: 'inventory',
-                count: result.count,
-                data: result.data
-            });
-        } else {
-            res.status(500).json({
-                error: 'Failed to retrieve city data',
-                message: result.error
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            error: 'Server error',
-            message: error.message
-        });
-    }
-});
-
-router.get('/inventory', async (req, res) => {
-    try {
-        const result = await inventoryDB.getAllInventory();
         const fruits = await fruitsDB.getAllFruits();
         const locations = await locationsDB.getAllLocations();
+        
         if (result.success && fruits.success && locations.success) {
-
             const fruitIdToName = {};
             fruits.data.forEach(fruit => {
                 fruitIdToName[fruit._id] = fruit.name;
@@ -58,6 +34,11 @@ router.get('/inventory', async (req, res) => {
                 collection: 'inventory',
                 count: inventoryList.length,
                 data: inventoryList
+            });
+        } else {
+            res.status(500).json({
+                error: 'Failed to retrieve inventory data',
+                message: result.error || fruits.error || locations.error || 'Unknown error'
             });
         }
     } catch (error) {
