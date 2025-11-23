@@ -35,8 +35,7 @@ const EditStaff = ({ staffData, onBack, onSave }) => {
   const jobPositions = [
     'manager',
     'staff',
-    'shop',
-    'warehouse',
+    'shop'
   ];
 
   useEffect(() => {
