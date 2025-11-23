@@ -103,11 +103,22 @@ if (frontendExists && shouldServeFrontend) {
         return apiRoutes.some(route => path.startsWith(route));
     };
     
+    // 先處理根路徑，直接返回 index.html（避免被其他中間件攔截）
+    app.get('/', (req, res) => {
+        const indexPath = path.join(frontendBuildPath, 'index.html');
+        console.log('📄 [根路徑] 返回前端頁面，路徑:', indexPath);
+        res.sendFile(indexPath, (err) => {
+            if (err) {
+                console.error('❌ [根路徑] 錯誤：無法發送 index.html:', err);
+                res.status(500).send('Error loading application');
+            } else {
+                console.log('✅ [根路徑] 成功發送 index.html');
+            }
+        });
+    });
+    
     // 服務靜態文件（CSS, JS, images 等）
-    // 只服務靜態資源文件（.js, .css, .png 等），不服務 HTML
-    app.use(express.static(frontendBuildPath, {
-        index: false // 不自動服務 index.html
-    }));
+    app.use(express.static(frontendBuildPath));
     
     // React Router 支持：所有非 API 路由都返回 index.html
     // 使用 app.use 作為中間件來處理所有請求，但讓 API 路由優先
@@ -115,20 +126,6 @@ if (frontendExists && shouldServeFrontend) {
         // 如果是 API 路由，跳過（讓後面的 API 路由處理）
         if (isApiRoute(req.path)) {
             return next();
-        }
-        
-        // 對於根路徑，直接返回 index.html
-        if (req.path === '/' && req.method === 'GET') {
-            const indexPath = path.join(frontendBuildPath, 'index.html');
-            console.log('📄 返回前端頁面，路徑:', indexPath);
-            return res.sendFile(indexPath, (err) => {
-                if (err) {
-                    console.error('❌ 錯誤：無法發送 index.html:', err);
-                    res.status(500).send('Error loading application');
-                } else {
-                    console.log('✅ 成功發送 index.html');
-                }
-            });
         }
         
         // 檢查文件是否存在（靜態資源）
@@ -141,9 +138,10 @@ if (frontendExists && shouldServeFrontend) {
         // 對於所有其他非 API 的 GET 請求，返回 React 應用的 index.html（支持 React Router）
         if (req.method === 'GET') {
             const indexPath = path.join(frontendBuildPath, 'index.html');
+            console.log('📄 [React Router] 返回前端頁面，路徑:', req.path);
             return res.sendFile(indexPath, (err) => {
                 if (err) {
-                    console.error('❌ 錯誤：無法發送 index.html:', err);
+                    console.error('❌ [React Router] 錯誤：無法發送 index.html:', err);
                     res.status(500).send('Error loading application');
                 }
             });
