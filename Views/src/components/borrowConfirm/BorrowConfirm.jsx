@@ -79,8 +79,14 @@ export default function StickyHeadTable() {
         const result = await response.json();
         
         if (result.data && Array.isArray(result.data)) {
-          setDataRows(result.data);
-          setFilteredRows(result.data);
+          // 按ID升序排序
+          const sortedData = result.data.sort((a, b) => {
+            const idA = Number(a._id) || 0;
+            const idB = Number(b._id) || 0;
+            return idA - idB;
+          });
+          setDataRows(sortedData);
+          setFilteredRows(sortedData);
         } else {
           throw new Error('Invalid data format from API');
         }
@@ -97,12 +103,12 @@ export default function StickyHeadTable() {
 
   
   React.useEffect(() => {
+    let filtered;
     if (searchTerm.trim() === '') {
-      setFilteredRows(dataRows);
-      setPage(0);
+      filtered = dataRows;
     } else {
       const lowercasedSearch = searchTerm.toLowerCase();
-      const filtered = dataRows.filter(row => 
+      filtered = dataRows.filter(row => 
         columns.some(column => {
           const value = row[column.id];
           if (value == null) return false;
@@ -123,9 +129,17 @@ export default function StickyHeadTable() {
           return value.toString().toLowerCase().includes(lowercasedSearch);
         })
       );
-      setFilteredRows(filtered);
-      setPage(0); 
     }
+    
+    // 按ID升序排序
+    filtered = filtered.sort((a, b) => {
+      const idA = Number(a._id) || 0;
+      const idB = Number(b._id) || 0;
+      return idA - idB;
+    });
+    
+    setFilteredRows(filtered);
+    setPage(0); 
   }, [searchTerm, dataRows]);
 
   const getStatusText = (status) => {

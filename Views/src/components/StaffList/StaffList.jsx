@@ -63,15 +63,24 @@ export default function StaffTable({ onEditStaff }) {
         const data = await response.json();
         console.log('API Response:', data);
         
+        let staffArray;
         if (data.data && Array.isArray(data.data)) {
-          setStaffData(data.data);
-          setFilteredData(data.data);
+          staffArray = data.data;
         } else if (Array.isArray(data)) {
-          setStaffData(data);
-          setFilteredData(data);
+          staffArray = data;
         } else {
           throw new Error('Invalid data format received from API');
         }
+        
+        // 按ID升序排序
+        const sortedStaff = staffArray.sort((a, b) => {
+          const idA = Number(a._id) || 0;
+          const idB = Number(b._id) || 0;
+          return idA - idB;
+        });
+        
+        setStaffData(sortedStaff);
+        setFilteredData(sortedStaff);
       } catch (err) {
         console.error('Fetch error:', err);
         setError('Network request failed: ' + err.message);
@@ -85,12 +94,12 @@ export default function StaffTable({ onEditStaff }) {
 
   // 搜索功能
   React.useEffect(() => {
+    let filtered;
     if (searchTerm.trim() === '') {
-      setFilteredData(staffData);
-      setPage(0);
+      filtered = staffData;
     } else {
       const lowercasedSearch = searchTerm.toLowerCase();
-      const filtered = staffData.filter(staff => 
+      filtered = staffData.filter(staff => 
         columns.some(column => {
           const value = staff[column.id];
           if (value == null) return false;
@@ -108,9 +117,17 @@ export default function StaffTable({ onEditStaff }) {
           return value.toString().toLowerCase().includes(lowercasedSearch);
         })
       );
-      setFilteredData(filtered);
-      setPage(0); // 重置到第一页
     }
+    
+    // 按ID升序排序
+    filtered = filtered.sort((a, b) => {
+      const idA = Number(a._id) || 0;
+      const idB = Number(b._id) || 0;
+      return idA - idB;
+    });
+    
+    setFilteredData(filtered);
+    setPage(0); // 重置到第一页
   }, [searchTerm, staffData]);
 
   const handleChangePage = (event, newPage) => {

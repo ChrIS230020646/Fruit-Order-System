@@ -86,12 +86,12 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
 
   
   React.useEffect(() => {
+    let filtered;
     if (searchTerm.trim() === '') {
-      setFilteredRows(rows);
-      setPage(0);
+      filtered = rows;
     } else {
       const lowercasedSearch = searchTerm.toLowerCase();
-      const filtered = rows.filter(row => 
+      filtered = rows.filter(row => 
         columns.some(column => {
           const value = row[column.id];
           if (value == null) return false;
@@ -113,9 +113,17 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
           return value.toString().toLowerCase().includes(lowercasedSearch);
         })
       );
-      setFilteredRows(filtered);
-      setPage(0); 
     }
+    
+    // 按ID升序排序
+    filtered = filtered.sort((a, b) => {
+      const idA = Number(a._id) || 0;
+      const idB = Number(b._id) || 0;
+      return idA - idB;
+    });
+    
+    setFilteredRows(filtered);
+    setPage(0); 
   }, [searchTerm, rows]);
 
   const fetchData = async () => {
@@ -137,8 +145,15 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
           return item;
         });
         
-        setRows(processedData);
-        setFilteredRows(processedData);
+        // 按ID升序排序
+        const sortedData = processedData.sort((a, b) => {
+          const idA = Number(a._id) || 0;
+          const idB = Number(b._id) || 0;
+          return idA - idB;
+        });
+        
+        setRows(sortedData);
+        setFilteredRows(sortedData);
       } else {
         console.error('Invalid data format:', result);
         setRows([]);

@@ -109,19 +109,26 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
 
   
   const applySearch = React.useCallback(() => {
+    let filtered;
     if (!searchTerm) {
-      setFilteredRows(rows);
-      return;
+      filtered = rows;
+    } else {
+      const term = searchTerm.toLowerCase();
+      filtered = rows.filter(row => 
+        (row.fruitName && row.fruitName.toLowerCase().includes(term)) ||
+        (row.fromWarehouseId && row.fromWarehouseId.toString().toLowerCase().includes(term)) ||
+        (row.toLocationId && row.toLocationId.toString().toLowerCase().includes(term)) ||
+        (row._id && row._id.toString().toLowerCase().includes(term)) ||
+        (row.status && row.status.toLowerCase().includes(term))
+      );
     }
-
-    const term = searchTerm.toLowerCase();
-    const filtered = rows.filter(row => 
-      (row.fruitName && row.fruitName.toLowerCase().includes(term)) ||
-      (row.fromWarehouseId && row.fromWarehouseId.toString().toLowerCase().includes(term)) ||
-      (row.toLocationId && row.toLocationId.toString().toLowerCase().includes(term)) ||
-      (row._id && row._id.toString().toLowerCase().includes(term)) ||
-      (row.status && row.status.toLowerCase().includes(term))
-    );
+    
+    // 按ID升序排序
+    filtered = filtered.sort((a, b) => {
+      const idA = Number(a._id) || 0;
+      const idB = Number(b._id) || 0;
+      return idA - idB;
+    });
 
     setFilteredRows(filtered);
     setPage(0); 
@@ -150,7 +157,14 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
           return item;
         });
         
-        setRows(processedData);
+        // 按ID升序排序
+        const sortedData = processedData.sort((a, b) => {
+          const idA = Number(a._id) || 0;
+          const idB = Number(b._id) || 0;
+          return idA - idB;
+        });
+        
+        setRows(sortedData);
       } else {
         console.error('Invalid data format:', result);
         setRows([]);

@@ -87,13 +87,23 @@ export default function InventoryTable({ onEditInventory }) {
         console.log('API Response:', data); 
         
         
+        let inventoryArray;
         if (data.data && Array.isArray(data.data)) {
-          setInventoryData(data.data);
+          inventoryArray = data.data;
         } else if (Array.isArray(data)) {
-          setInventoryData(data);
+          inventoryArray = data;
         } else {
           throw new Error('Invalid data format received from API');
         }
+        
+        // 按ID升序排序
+        const sortedInventory = inventoryArray.sort((a, b) => {
+          const idA = Number(a._id) || 0;
+          const idB = Number(b._id) || 0;
+          return idA - idB;
+        });
+        
+        setInventoryData(sortedInventory);
       } catch (err) {
         console.error('Fetch error:', err);
         setError('Network request failed: ' + err.message);
@@ -127,6 +137,13 @@ export default function InventoryTable({ onEditInventory }) {
         (item._id && item._id.toString().toLowerCase().includes(term))
       );
     }
+
+    // 按ID升序排序
+    filtered = filtered.sort((a, b) => {
+      const idA = Number(a._id) || 0;
+      const idB = Number(b._id) || 0;
+      return idA - idB;
+    });
 
     setFilteredData(filtered);
     setPage(0); 
