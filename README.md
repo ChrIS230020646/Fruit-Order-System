@@ -9,24 +9,31 @@ npx concurrently "cd js_server && node server.js" "cd Views && npm start"
 
 # API Testing Commands (Production - Render)
 
-## 1. Show the list
+## 1. GET - Get all fruits
 ```cmd
-curl -X GET https://fruit-order-system-1.onrender.com/deliveries/list
+curl -X GET https://fruit-order-system-1.onrender.com/fruits
 ```
 
-## 2. INSERT with _id: 123456
+## 2. POST - Create new fruit
 ```cmd
-curl -X POST https://fruit-order-system-1.onrender.com/deliveries/insert -H "Content-Type: application/json" -d "{\"_id\": 123456, \"fromWarehouseId\": 1001, \"toLocationId\": 1002, \"fruitId\": 1, \"quantity\": 240, \"deliveryDate\": \"2023-04-03\", \"estimatedArrivalDate\": \"2023-04-04\", \"status\": \"Delivered\"}"
+echo {"fruitsArray": [{"_id": 8888, "name": "Apple", "originCountryId": 1, "price": 5.50, "unit": "kg", "description": "Fresh red apples"}]} > post_data.json
+curl -X POST https://fruit-order-system-1.onrender.com/fruits -H "Content-Type: application/json" -d @post_data.json
 ```
 
-## 3. UPDATE the record
+## 3. PUT - Update fruit
 ```cmd
-curl -X PUT https://fruit-order-system-1.onrender.com/deliveries/update/123456 -H "Content-Type: application/json" -d "{\"status\": \"In Transit\", \"quantity\": 300}"
+echo {"name": "Green Apple", "originCountryId": 1, "price": 6.00} > put_data.json
+curl -X PUT https://fruit-order-system-1.onrender.com/fruits/8888 -H "Content-Type: application/json" -d @put_data.json
 ```
 
-## 4. DELETE the record
+## 4. DELETE - Delete fruit
 ```cmd
-curl -X DELETE https://fruit-order-system-1.onrender.com/deliveries/delete/123456
+curl -X DELETE https://fruit-order-system-1.onrender.com/fruits/8888
+```
+
+## 5. Clean up temporary files (Optional)
+```cmd
+del post_data.json put_data.json
 ```
 
 ---
