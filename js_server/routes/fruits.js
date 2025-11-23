@@ -145,7 +145,7 @@ router.post("/fruits/insert/", async (req, res) => {
             }
         }
 
-        const result = await FruitDB.insertManyFruits(fruitsArray);
+        const result = await fruitDB.insertManyFruits(fruitsArray);
         
         if (result.success) {
             res.status(201).json(result);
