@@ -280,7 +280,8 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
     <>
       <Paper sx={{ 
         width: '100%', 
-        overflow: 'hidden',
+        maxWidth: '100%',
+        overflow: 'visible',
         borderRadius: 3,
         boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05)',
       }}>
@@ -355,13 +356,29 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
 
         <TableContainer sx={{ 
           maxHeight: 600,
+          width: '100%',
           overflowX: 'auto',
+          overflowY: 'auto',
           borderRadius: 2,
           border: '1px solid #e2e8f0',
           mx: 3,
           mb: 3,
+          '&::-webkit-scrollbar': {
+            height: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: '#f1f1f1',
+            borderRadius: '4px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#888',
+            borderRadius: '4px',
+            '&:hover': {
+              background: '#555',
+            },
+          },
         }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 800 }}>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
