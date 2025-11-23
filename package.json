@@ -1,0 +1,15 @@
+{
+  "name": "fruit-order-system",
+  "version": "1.0.0",
+  "description": "Fruit Order System - Full Stack Application",
+  "scripts": {
+    "build": "node build.js",
+    "build:frontend": "cd Views && npm install && npm run build",
+    "build:backend": "cd js_server && npm install",
+    "start": "cd js_server && npm start",
+    "dev": "concurrently \"cd js_server && npm run dev\" \"cd Views && npm start\""
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

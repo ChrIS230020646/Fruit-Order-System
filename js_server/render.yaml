@@ -1,0 +1,21 @@
+# 後端專用的 Render 配置文件
+# 如果使用此文件，請將此文件放在 js_server 目錄作為根目錄配置
+
+services:
+  - type: web
+    name: fruit-order-backend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ATLAS_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+
