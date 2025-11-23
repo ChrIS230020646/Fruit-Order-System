@@ -358,4 +358,29 @@ router.post("/staff/insert/", async (req, res) => {
     }
 });
 
+router.delete('/staff/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await staffDB.deleteStaff(id);
+
+        if (result.success) {
+            res.json({
+                message: 'Staff deleted successfully',
+                data: result.data
+            });
+        } else {
+            res.status(400).json({
+                error: 'Failed to delete staff',
+                message: result.error
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+            message: error.message
+        });
+    }
+});
+
 module.exports = router;

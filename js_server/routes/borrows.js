@@ -92,4 +92,29 @@ router.post("/borrows/insert/", async (req, res) => {
     }
 });
 
+router.delete('/borrows/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await BorrowDB.deleteBorrow(id);
+
+        if (result.success) {
+            res.json({
+                message: 'Borrow deleted successfully',
+                data: result.data
+            });
+        } else {
+            res.status(400).json({
+                error: 'Failed to delete borrow',
+                message: result.error
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+            message: error.message
+        });
+    }
+});
+
 module.exports = router;

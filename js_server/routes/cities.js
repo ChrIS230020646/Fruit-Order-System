@@ -101,16 +101,16 @@ router.post('/cities', async (req, res) => {
 });
 
 
-router.get('/cities/update/:id/:countryId/:name', async (req, res) => {
+router.put('/cities/update/:id', async (req, res) => {
     try {
         const cityId = parseInt(req.params.id);
-        const countryId = parseInt(req.params.countryId);
-        const name = req.params.name;
+        const updateData = req.body;
 
-        const updateData = {
-            countryId: countryId,
-            name: name
-        };
+        if (!updateData || Object.keys(updateData).length === 0) {
+            return res.status(400).json({
+                error: 'Update data is required'
+            });
+        }
         
         const result = await CityDB.updateCity(cityId, updateData);
         
@@ -132,8 +132,7 @@ router.get('/cities/update/:id/:countryId/:name', async (req, res) => {
     }
 });
 
-
-router.get('/cities/delete/:id', async (req, res) => {
+router.delete('/cities/delete/:id', async (req, res) => {
     try {
         const cityId = parseInt(req.params.id);
         

@@ -133,6 +133,29 @@ router.post('/inventory/insert', async (req, res) => {
     }
 });
 
+router.delete('/inventory/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        const result = await inventoryDB.deleteInventory(id);
+
+        if (result.success) {
+            res.json({
+                message: 'Inventory deleted successfully',
+                data: result.data
+            });
+        } else {
+            res.status(400).json({
+                error: 'Failed to delete inventory',
+                message: result.error
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: 'Server error',
+            message: error.message
+        });
+    }
+});
 
 module.exports = router;
