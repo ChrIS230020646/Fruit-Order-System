@@ -66,9 +66,20 @@ connectDB();
 // STATIC FILES (Frontend) - 必須在 API 路由之前
 // ----------------------
 // 在生產環境中服務前端靜態文件（合併部署）
-if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
-    // 前端構建文件的路徑（相對於 server.js 的位置）
-    const frontendBuildPath = path.join(__dirname, '..', 'Views', 'build');
+// 檢查前端構建文件是否存在
+const frontendBuildPath = path.join(__dirname, '..', 'Views', 'build');
+const frontendExists = fs.existsSync(frontendBuildPath);
+const shouldServeFrontend = process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true';
+
+console.log('🔍 前端服務檢查:');
+console.log('  - 構建文件路徑:', frontendBuildPath);
+console.log('  - 文件是否存在:', frontendExists);
+console.log('  - NODE_ENV:', process.env.NODE_ENV);
+console.log('  - SERVE_FRONTEND:', process.env.SERVE_FRONTEND);
+console.log('  - 應該服務前端:', shouldServeFrontend);
+
+if (frontendExists && shouldServeFrontend) {
+    console.log('✅ 前端服務已啟用');
     
     // API 路由前綴列表（這些路由不應該返回前端頁面）
     const apiRoutes = [
@@ -125,6 +136,14 @@ if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'tru
         
         next();
     });
+} else {
+    // 如果前端構建文件不存在，記錄警告
+    if (!frontendExists) {
+        console.warn('⚠️  警告：找不到前端構建文件，路徑:', frontendBuildPath);
+        console.warn('⚠️  提示：確保已運行構建腳本並設置 SERVE_FRONTEND=true');
+    } else {
+        console.log('ℹ️  前端服務未啟用（設置 SERVE_FRONTEND=true 以啟用）');
+    }
 }
 
 // Register API Routes
