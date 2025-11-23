@@ -86,6 +86,7 @@ if (frontendExists && shouldServeFrontend) {
         '/api/',
         '/api/info',  // 添加新的 API 信息端點
         '/server/',
+        '/auth/',     // 認證相關 API 路由
         '/cities',
         '/staff',
         '/fruits',
