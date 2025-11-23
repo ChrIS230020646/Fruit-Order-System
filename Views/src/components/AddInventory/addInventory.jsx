@@ -10,7 +10,8 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  Box
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import Getapi from '../GetAPI/Getapi';
@@ -173,12 +174,30 @@ const SimpleAddInventory = () => {
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom>
-        Add Inventory
-      </Typography>
+    <Paper sx={{ 
+      width: '100%', 
+      maxWidth: '100%',
+      overflow: 'hidden',
+      borderRadius: 3,
+      boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05)',
+    }}>
+      <Box sx={{ 
+        p: 3,
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
+      }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5, color: 'white' }}>
+          Add Inventory
+        </Typography>
+        <Typography variant="body2" sx={{ opacity: 0.9, color: 'white' }}>
+          Add new inventory items to the system
+        </Typography>
+      </Box>
       
-      <Grid container spacing={2}>
+      <Box sx={{ p: 3 }}>
+        <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <InputLabel id={`staff-fruit-label-${fruits}`} shrink>
@@ -267,6 +286,7 @@ const SimpleAddInventory = () => {
           </Button>
         </Grid>
       </Grid>
+      </Box>
 
       <Snackbar
         open={snackbar.open}

@@ -3,9 +3,6 @@ import {
   Box,
   Button,
   TextField,
-  Card,
-  CardContent,
-  CardHeader,
   Snackbar,
   Alert,
   Grid,
@@ -160,14 +157,30 @@ const AddFruit = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto', p: 3 }}>
-      <Card elevation={3} sx={{ backgroundColor: 'background.default', color: 'text.primary' }}>
-        <CardHeader
-          title="Add Fruits"
-          subheader="Batch add fruit information to database"
-          titleTypographyProps={{ variant: 'h4', fontWeight: 'bold' }}
-        />
-        <CardContent>
+    <Box sx={{ maxWidth: 1200, margin: '0 auto', width: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
+      <Paper sx={{ 
+        width: '100%', 
+        maxWidth: '100%',
+        overflow: 'hidden',
+        borderRadius: 3,
+        boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05)',
+      }}>
+        <Box sx={{ 
+          p: 3,
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+        }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5, color: 'white' }}>
+            Add Fruits
+          </Typography>
+          <Typography variant="body2" sx={{ opacity: 0.9, color: 'white' }}>
+            Batch add fruit information to database
+          </Typography>
+        </Box>
+        
+        <Box sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               {fruits.map((fruit, index) => (
@@ -273,8 +286,8 @@ const AddFruit = () => {
               </Button>
             </Box>
           </form>
-        </CardContent>
-      </Card>
+        </Box>
+      </Paper>
 
       <Snackbar
         open={notification.open}
