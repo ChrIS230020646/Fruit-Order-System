@@ -174,6 +174,7 @@ const SimpleAddInventory = () => {
   };
 
   return (
+    <Box sx={{ maxWidth: 1200, margin: '0 auto', width: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
     <Paper sx={{ 
       width: '100%', 
       maxWidth: '100%',
@@ -302,6 +303,7 @@ const SimpleAddInventory = () => {
         </Alert>
       </Snackbar>
     </Paper>
+    </Box>
   );
 };
 

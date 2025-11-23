@@ -383,7 +383,8 @@ function DemoPageContent({ pathname }) {
         alignItems: 'stretch',
         width: '100%',
         maxWidth: '100%',
-        overflow: 'hidden',
+        overflowY: 'auto',
+        overflowX: 'hidden',
       }}
     >
       { pathname === '/profile' ? (
