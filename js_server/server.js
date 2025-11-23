@@ -110,6 +110,7 @@ if (frontendExists && shouldServeFrontend) {
         '/server/',
         '/auth/',     // 認證相關 API 路由
         '/cities',
+        '/countries',
         '/staff',
         '/fruits',
         '/inventory',
