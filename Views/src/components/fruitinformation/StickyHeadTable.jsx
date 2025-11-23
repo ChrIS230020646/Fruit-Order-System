@@ -355,6 +355,7 @@ export default function StickyHeadTable({ onEditfruit, onFruitDeleted }) {
 
         <TableContainer sx={{ 
           maxHeight: 600,
+          overflowX: 'auto',
           borderRadius: 2,
           border: '1px solid #e2e8f0',
           mx: 3,

@@ -223,9 +223,11 @@ export default function StickyHeadTable() {
 
   return (
     <Box sx={{ 
-      maxWidth: 1400,
+      maxWidth: '100%',
       margin: '0 auto',
       width: '100%',
+      px: { xs: 1, sm: 2, md: 3 },
+      overflow: 'hidden',
     }}>
       <Paper sx={{ 
         width: '100%', 
@@ -302,6 +304,7 @@ export default function StickyHeadTable() {
       
       <TableContainer sx={{ 
         maxHeight: 600,
+        overflowX: 'auto',
         borderRadius: 2,
         border: '1px solid #e2e8f0',
         mx: 3,

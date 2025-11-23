@@ -24,7 +24,7 @@ const OrderManagement = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: '100%', overflow: 'hidden', padding: '0 12px' }}>
       {currentView === 'list' ? (
         <StickyHeadTable onEditfruit={handleEditfruit} />
       ) : (
