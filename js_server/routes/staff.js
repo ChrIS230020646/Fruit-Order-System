@@ -126,6 +126,16 @@ router.post('/staff/google-login', async (req, res) => {
             });
         }
 
+        // 處理 OAuth client not found 錯誤
+        if (error.message.includes('invalid_client') || 
+            error.message.includes('OAuth client was not found') ||
+            error.message.includes('OAuth client not found')) {
+            return res.status(400).json({
+                success: false,
+                error: 'Google OAuth Client ID 配置錯誤。請檢查環境變量 GOOGLE_CLIENT_ID 是否正確設置，並確認該 Client ID 在 Google Cloud Console 中存在。'
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Google login failed',

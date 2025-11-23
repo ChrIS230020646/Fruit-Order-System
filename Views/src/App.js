@@ -63,11 +63,6 @@ const App = () => {
     );
   }
 
-  
-  if (!googleClientId) {
-    console.warn('Google Client ID is not configured. Google Login will not work.');
-  }
-
   return (
     <GoogleOAuthProvider clientId={googleClientId || ''}>
       <div>

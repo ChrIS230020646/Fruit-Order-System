@@ -61,9 +61,31 @@ async function callAPI(endpoint, options = {}) {
         }
         
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`HTTP not: ${response.status}`, errorText);
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+            let errorData = null;
+            
+            // 嘗試解析 JSON 響應以獲取後端的詳細錯誤訊息
+            try {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    errorData = await response.json();
+                    // 優先使用後端返回的錯誤訊息
+                    errorMessage = errorData.error || errorData.message || errorMessage;
+                } else {
+                    const errorText = await response.text();
+                    console.error(`HTTP not: ${response.status}`, errorText);
+                }
+            } catch (parseError) {
+                console.error('Failed to parse error response:', parseError);
+            }
+            
+            // 返回錯誤結果，保留後端的詳細錯誤訊息
+            return {
+                success: false,
+                error: errorMessage,
+                status: response.status,
+                data: errorData
+            };
         }
         
         const data = await response.json();
@@ -73,14 +95,14 @@ async function callAPI(endpoint, options = {}) {
     } catch (error) {
         console.error(` API file [${endpoint}]:`, error.message);
         
-        
-        let userFriendlyError = 'web false';
+        // 處理網絡錯誤
+        let userFriendlyError = 'Network request failed';
         if (error.message.includes('Failed to fetch')) {
-            userFriendlyError = ` (${api})`;
+            userFriendlyError = `無法連接到伺服器 (${api || 'unknown'})`;
         } else if (error.message.includes('Network Error')) {
-            userFriendlyError = 'not find Network';
-        } else if (error.message.includes('HTTP')) {
-            userFriendlyError = `not: ${error.message}`;
+            userFriendlyError = '網絡連接錯誤，請檢查您的網絡連接';
+        } else {
+            userFriendlyError = error.message;
         }
         
         return {

@@ -100,18 +100,47 @@ const LoginPage = ({ onLoginSuccess }) => {
         console.log('Google login successful');
         onLoginSuccess();
       } else {
-        setLoginError(result.error || 'Google login failed');
+        // 使用後端返回的詳細錯誤訊息
+        const errorMsg = result.error || 'Google login failed';
+        
+        // 針對特定錯誤提供更友好的訊息
+        if (errorMsg.includes('not registered') || errorMsg.includes('User not registered')) {
+          setLoginError('此 Google 帳戶尚未註冊，請聯繫管理員');
+        } else if (errorMsg.includes('Client ID') || errorMsg.includes('OAuth client')) {
+          setLoginError('Google 登入配置錯誤，請聯繫管理員檢查設定');
+        } else {
+          setLoginError(errorMsg);
+        }
       }
     } catch (error) {
-      setLoginError('Google login failed. Please try again.');
+      setLoginError('Google 登入失敗，請稍後再試');
       console.error('Google login error:', error);
     } finally {
       setGoogleLoading(false);
     }
   };
 
-  const handleGoogleError = () => {
-    setLoginError('Google login failed. Please try again.');
+  const handleGoogleError = (error) => {
+    console.error('Google OAuth error:', error);
+    
+    let errorMessage = 'Google 登入失敗，請稍後再試';
+    
+    // 處理不同的 Google OAuth 錯誤
+    if (error?.error === 'popup_closed_by_user') {
+      errorMessage = '登入已取消';
+    } else if (error?.error === 'access_denied') {
+      errorMessage = '存取被拒絕，請檢查權限設定';
+    } else if (error?.error === 'idpiframe_initialization_failed' || 
+               error?.error === 'popup_blocked') {
+      errorMessage = '彈出視窗被阻擋，請允許彈出視窗後重試';
+    } else if (error?.error === 'invalid_client' || 
+               error?.error === 'oauth_client_not_found') {
+      errorMessage = 'Google 登入配置錯誤：OAuth 客戶端未找到，請聯繫管理員檢查設定';
+    } else if (error?.error) {
+      errorMessage = `Google 登入錯誤：${error.error}`;
+    }
+    
+    setLoginError(errorMessage);
   };
 
   const handleTogglePassword = () => {
@@ -235,7 +264,7 @@ const LoginPage = ({ onLoginSuccess }) => {
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               {googleLoading ? (
                 <CircularProgress />
-              ) : (
+              ) : process.env.REACT_APP_GOOGLE_CLIENT_ID ? (
                 <GoogleLogin
                   onSuccess={handleGoogleLogin}
                   onError={handleGoogleError}
@@ -245,6 +274,10 @@ const LoginPage = ({ onLoginSuccess }) => {
                   text="signin_with"
                   shape="rectangular"
                 />
+              ) : (
+                <Alert severity="warning" sx={{ width: '100%' }}>
+                  Google 登入功能未配置，請使用帳號密碼登入
+                </Alert>
               )}
             </Box>
           </Box>
