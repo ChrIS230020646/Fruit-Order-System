@@ -44,6 +44,8 @@ const AddFruit = () => {
           throw new Error('Failed to fetch cities');
         }
         const data = await response.json();
+        
+        
         setCities(data.data || []);
       } catch (error) {
         console.error('Error fetching cities:', error);
@@ -161,7 +163,7 @@ const AddFruit = () => {
 
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto', p: 3 }}>
-      <Card elevation={3} sx={{ backgroundColor: 'background.default', color: 'text.primary' }}>
+      <Card elevation={3}>
         <CardHeader
           title="Add Fruits"
           subheader="Batch add fruit information to database"
@@ -172,7 +174,7 @@ const AddFruit = () => {
             <Grid container spacing={2}>
               {fruits.map((fruit, index) => (
                 <Grid item xs={12} key={index}>
-                  <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.800', color: 'white' }}>
+                  <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.50' }}>
                     <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                       Fruit #{index + 1}
                       {fruits.length > 1 && (
@@ -196,26 +198,17 @@ const AddFruit = () => {
                           onChange={(e) => updateFruit(index, 'name', e.target.value)}
                           required
                           placeholder="e.g., Apple"
-                          sx={{ input: { color: 'white' }, label: { color: 'white' }, '& .MuiSelect-root': { backgroundColor: 'grey.700' }}}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6} md={4}>
                         <FormControl fullWidth>
-                          <InputLabel id={`staff-city-label-${index}`} sx={{ color: 'white' }} shrink>
-                            Origin City *
-                          </InputLabel>
+                          <InputLabel>Origin City *</InputLabel>
                           <Select
-                            label="Origin City *"
                             value={fruit.originCountryId}
+                            label="Origin City *"
                             onChange={(e) => updateFruit(index, 'originCountryId', e.target.value)}
-                            required
-                            displayEmpty
-                            notched
-                            sx={{ backgroundColor: 'grey.700', color: 'white' }}
+                            disabled={citiesLoading}
                           >
-                            <MenuItem value="" disabled>
-                              <em>Select Origin City</em>
-                            </MenuItem>
                             {cities.map((city) => (
                               <MenuItem key={city._id} value={city._id}>
                                 ID: {city._id} - {city.name}
@@ -234,7 +227,6 @@ const AddFruit = () => {
                           required
                           placeholder="e.g., 1.20"
                           InputProps={{ inputProps: { min: 0, step: 0.01 } }}
-                          sx={{ input: { color: 'white' }, label: { color: 'white' }}}
                         />
                       </Grid>
                     </Grid>

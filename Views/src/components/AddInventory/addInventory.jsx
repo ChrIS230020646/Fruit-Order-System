@@ -181,21 +181,13 @@ const SimpleAddInventory = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <InputLabel id={`staff-fruit-label-${fruits}`} shrink>
-               Fruit ID*
-            </InputLabel>
+            <InputLabel>Fruit ID</InputLabel>
             <Select
               value={inventoryData.fruitId}
               label="Fruit ID"
               onChange={(e) => handleInputChange('fruitId', e.target.value)}
               disabled={loading || fruits.length === 0}
-              required
-              displayEmpty
-              notched
             >
-            <MenuItem value="" disabled>
-                <em>Select Fruit</em>
-              </MenuItem>
               {fruits.length === 0 ? (
                 <MenuItem disabled>
                   {loading ? 'Loading fruits...' : 'No fruits available'}
@@ -213,21 +205,13 @@ const SimpleAddInventory = () => {
         
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <InputLabel id={`staff-location-label-${fruits}`} shrink>
-               Location Id *
-            </InputLabel>
+            <InputLabel>Location ID</InputLabel>
             <Select
               value={inventoryData.locationId}
               label="Location ID"
               onChange={(e) => handleInputChange('locationId', e.target.value)}
               disabled={loading || locations.length === 0}
-              required
-              displayEmpty
-              notched
             >
-             <MenuItem value="" disabled>
-                <em>Select Location</em>
-              </MenuItem>
               {locations.length === 0 ? (
                 <MenuItem disabled>
                   {loading ? 'Loading locations...' : 'No locations available'}

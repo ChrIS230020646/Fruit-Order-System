@@ -20,14 +20,13 @@ import GetApi from '../GetAPI/Getapi';
 
 const columns = [
   { id: '_id', label: 'ID', minWidth: 50 },
-  { id: 'fruitId', label: 'Fruit ID', minWidth: 60 },
   { id: 'fruitName', label: 'Fruit Name', minWidth: 75 },
   { id: 'locationId', label: 'Location ID', minWidth: 70 },
   { id: 'locationName', label: 'Location Name', minWidth: 75 },
   {
     id: 'quantity',
     label: 'Quantity',
-    minWidth: 100,
+    minWidth: 150,
     align: 'left',
     format: (value) => {
       if (typeof value === 'number') {
@@ -157,7 +156,7 @@ export default function InventoryTable({ onEditInventory }) {
 
   return (
     <Box sx={{ 
-      maxWidth: 1500,
+      maxWidth: 1400,
       margin: '0 auto',
       width: '100%',
     }}>
@@ -229,7 +228,7 @@ export default function InventoryTable({ onEditInventory }) {
                     minWidth: column.minWidth,
                     backgroundColor: (theme) => theme.palette.mode === 'dark' 
                       ? '#1a202c' 
-                      : '#4A90E2',
+                      : '#f8fafc',
                     fontWeight: 600,
                     fontSize: '0.875rem',
                     color: (theme) => theme.palette.mode === 'dark' 

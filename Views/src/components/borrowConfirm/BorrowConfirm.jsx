@@ -318,7 +318,7 @@ export default function StickyHeadTable() {
                     minWidth: column.minWidth,
                     backgroundColor: (theme) => theme.palette.mode === 'dark' 
                       ? '#1a202c' 
-                      : '#4A90E2',
+                      : '#f8fafc',
                     fontWeight: 600,
                     fontSize: '0.875rem',
                     color: (theme) => theme.palette.mode === 'dark' 
