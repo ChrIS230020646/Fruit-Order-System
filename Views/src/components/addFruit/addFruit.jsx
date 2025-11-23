@@ -23,38 +23,38 @@ const AddFruit = () => {
     originCountryId: '', 
     price: ''
   }]);
-  const [cities, setCities] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [notification, setNotification] = useState({ 
     open: false, 
     message: '', 
     severity: 'success' 
   });
   const [loading, setLoading] = useState(false);
-  const [citiesLoading, setCitiesLoading] = useState(false);
+  const [countriesLoading, setCountriesLoading] = useState(false);
 
   useEffect(() => {
-    const fetchCities = async () => {
+    const fetchCountries = async () => {
       try {
-        setCitiesLoading(true);
-        const response = await fetch(`${GetApi.api}/cities`);
+        setCountriesLoading(true);
+        const response = await fetch(`${GetApi.api}/countries`);
         if (!response.ok) {
-          throw new Error('Failed to fetch cities');
+          throw new Error('Failed to fetch countries');
         }
         const data = await response.json();
-        setCities(data.data || []);
+        setCountries(data.data || []);
       } catch (error) {
-        console.error('Error fetching cities:', error);
+        console.error('Error fetching countries:', error);
         setNotification({
           open: true,
-          message: 'Failed to load cities data',
+          message: 'Failed to load countries data',
           severity: 'error'
         });
       } finally {
-        setCitiesLoading(false);
+        setCountriesLoading(false);
       }
     };
 
-    fetchCities();
+    fetchCountries();
   }, []);
 
   const addFruitRow = () => {
@@ -213,23 +213,24 @@ const AddFruit = () => {
                       </Grid>
                       <Grid item xs={12} sm={6} md={4}>
                         <FormControl fullWidth>
-                          <InputLabel id={`staff-city-label-${index}`} shrink>
-                            Origin City *
+                          <InputLabel id={`country-label-${index}`} shrink>
+                            Origin Country *
                           </InputLabel>
                           <Select
-                            label="Origin City *"
+                            label="Origin Country *"
                             value={fruit.originCountryId}
                             onChange={(e) => updateFruit(index, 'originCountryId', e.target.value)}
                             required
                             displayEmpty
                             notched
+                            disabled={countriesLoading}
                           >
                             <MenuItem value="" disabled>
-                              <em>Select Origin City</em>
+                              <em>Select Origin Country</em>
                             </MenuItem>
-                            {cities.map((city) => (
-                              <MenuItem key={city._id} value={city._id}>
-                                ID: {city._id} - {city.name}
+                            {countries.map((country) => (
+                              <MenuItem key={country._id} value={country._id}>
+                                {country.name}
                               </MenuItem>
                             ))}
                           </Select>
@@ -275,7 +276,7 @@ const AddFruit = () => {
               <Button
                 type="submit"
                 variant="contained"
-                disabled={loading || citiesLoading}
+                disabled={loading || countriesLoading}
                 sx={{ ml: 'auto', minWidth: 120 }}
                 startIcon={loading ? <CircularProgress size={20} /> : null}
               >

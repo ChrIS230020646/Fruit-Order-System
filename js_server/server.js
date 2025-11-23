@@ -8,6 +8,7 @@ const os = require('os');
 
 const indexRoutes = require('./routes/index');
 const citiesDBRoutes = require('./routes/cities');
+const countriesDBRoutes = require('./routes/countries');
 const staffDBRoutes = require('./routes/staff');
 const fruitsDBRoutes = require('./routes/fruits');
 const inventoryDBRoutes = require('./routes/inventory');
@@ -185,6 +186,7 @@ if (frontendExists && shouldServeFrontend) {
 // 注意：將 indexRoutes 改為 /api/info，避免攔截根路徑
 app.use('/api/info', indexRoutes);  // 原來的根路徑 API 現在在 /api/info
 app.use('/', citiesDBRoutes);
+app.use('/', countriesDBRoutes);
 app.use('/', staffDBRoutes);
 app.use('/', fruitsDBRoutes);
 app.use('/', inventoryDBRoutes);
