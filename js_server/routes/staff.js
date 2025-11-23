@@ -49,7 +49,17 @@ router.post('/staff/google-login', async (req, res) => {
         if (!process.env.GOOGLE_CLIENT_ID) {
             return res.status(500).json({
                 success: false,
-                error: 'Google Client ID not configured on server'
+                error: 'Google OAuth 配置錯誤：後端環境變數 GOOGLE_CLIENT_ID 未設置。請在 Render 環境變數中設置 GOOGLE_CLIENT_ID，並確保其值與 REACT_APP_GOOGLE_CLIENT_ID 相同。'
+            });
+        }
+        
+        // 檢查前端和後端 Client ID 是否一致
+        const frontendClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+        if (frontendClientId && frontendClientId !== process.env.GOOGLE_CLIENT_ID) {
+            console.error('❌ Client ID 不匹配：前端和後端使用了不同的 Client ID');
+            return res.status(500).json({
+                success: false,
+                error: 'Google OAuth 配置錯誤：前端和後端使用了不同的 Client ID。請確保 REACT_APP_GOOGLE_CLIENT_ID 和 GOOGLE_CLIENT_ID 的值完全相同。'
             });
         }
 

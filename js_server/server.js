@@ -62,6 +62,27 @@ app.use(express.json());
 // Connect MongoDB
 connectDB();
 
+// 檢查 Google OAuth 配置（如果使用）
+if (process.env.REACT_APP_GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID) {
+    const frontendClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const backendClientId = process.env.GOOGLE_CLIENT_ID;
+    
+    console.log('🔍 Google OAuth 配置檢查:');
+    console.log('  - REACT_APP_GOOGLE_CLIENT_ID:', frontendClientId ? '已設置' : '❌ 未設置');
+    console.log('  - GOOGLE_CLIENT_ID:', backendClientId ? '已設置' : '❌ 未設置');
+    
+    if (!frontendClientId || !backendClientId) {
+        console.warn('⚠️  警告：Google OAuth 環境變數不完整');
+        console.warn('⚠️  提示：必須同時設置 REACT_APP_GOOGLE_CLIENT_ID 和 GOOGLE_CLIENT_ID');
+    } else if (frontendClientId !== backendClientId) {
+        console.error('❌ 錯誤：REACT_APP_GOOGLE_CLIENT_ID 和 GOOGLE_CLIENT_ID 的值不一致！');
+        console.error('❌ 這會導致 Google OAuth 登入失敗（invalid_client 錯誤）');
+        console.error('❌ 請確保兩個環境變數的值完全相同');
+    } else {
+        console.log('✅ Google OAuth 配置正確');
+    }
+}
+
 // ----------------------
 // STATIC FILES (Frontend) - 必須在 API 路由之前
 // ----------------------
