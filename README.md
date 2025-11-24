@@ -15,15 +15,29 @@ curl -X GET https://fruit-order-system-1.onrender.com/fruits
 ```
 
 ## 2. POST - Create new fruit
+
+### Method 1: Using file (Recommended)
 ```cmd
 echo {"fruitsArray": [{"_id": 8888, "name": "Apple", "originCountryId": 1, "price": 5.50, "unit": "kg", "description": "Fresh red apples"}]} > post_data.json
 curl -X POST https://fruit-order-system-1.onrender.com/fruits -H "Content-Type: application/json" -d @post_data.json
 ```
 
+### Method 2: Direct input
+```cmd
+curl -X POST https://fruit-order-system-1.onrender.com/fruits -H "Content-Type: application/json" -d "{\"fruitsArray\": [{\"_id\": 8888, \"name\": \"Apple\", \"originCountryId\": 1, \"price\": 5.50, \"unit\": \"kg\", \"description\": \"Fresh red apples\"}]}"
+```
+
 ## 3. PUT - Update fruit
+
+### Method 1: Using file (Recommended)
 ```cmd
 echo {"name": "Green Apple", "originCountryId": 1, "price": 6.00} > put_data.json
 curl -X PUT https://fruit-order-system-1.onrender.com/fruits/8888 -H "Content-Type: application/json" -d @put_data.json
+```
+
+### Method 2: Direct input
+```cmd
+curl -X PUT https://fruit-order-system-1.onrender.com/fruits/8888 -H "Content-Type: application/json" -d "{\"name\": \"Green Apple\", \"originCountryId\": 1, \"price\": 6.00}"
 ```
 
 ## 4. DELETE - Delete fruit
