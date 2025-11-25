@@ -1,3 +1,68 @@
+## js_server
+### js_server/server.js
+- **Express.js**: Node.js web framework
+- **Cookie Parser**: Handles HTTP cookies
+- **MongoDB Database Connection**
+- **Cross-Origin Request Handling**
+- **Supports Multiple Frontend Domains**
+- **Automatic Local Development Environment Detection**
+- **CRUD Management System** covering multiple business modules
+- **Serves both React Frontend and Express API** from the same server
+- **Supports React Router Client-Side Routing**
+- **API Requests** routed to corresponding backend endpoints
+- **Page Requests** return React application's index.html
+- **Security Features**
+  - CORS Configuration: Controls cross-origin access
+  - Environment Variables: Protects sensitive information
+  - Google OAuth Authentication: Identity verification system
+
+### js_server/orderBean
+- Contains preset data templates that can be temporarily stored
+
+### js_server/orderDB
+- Controls database operations: read, delete, update, insert
+
+### js_server/routes
+- Exposes API endpoints for frontend connectivity
+
+### js_server/package.json
+- **Full-Stack Project** - Includes frontend build processes
+- **Modern Configuration** - Uses environment variables and hot reloading
+- **Authentication Integration** - Supports Google OAuth
+- **Database Driven** - MongoDB data persistence
+- **Development Friendly** - Distinguishes between development and production environments
+
+## Views
+### Views/src/components
+- User Interface components
+
+### Views/src/utils/auth.js
+- Controls login routing paths
+
+### Views/src/components/GetAPI/Getapi.js
+- Connects to and consumes backend APIs
+
+### Views/package-lock.json
+**Technology Stack Characteristics:**
+1. **Modern Frontend Stack**
+   - React 19 + Material-UI + React Router
+   - Enterprise-grade technology choices
+
+2. **Complete Development Experience**
+   - Built-in testing configuration
+   - Code quality linting
+   - Performance monitoring
+
+3. **Rich Feature Integration**
+   - Chart displays (Recharts)
+   - Google Login (OAuth)
+   - Responsive design (MUI)
+
+4. **Production Ready**
+   - Optimized build configuration
+   - Browser compatibility handling
+   - Performance monitoring integration
+
 # Fruit-Order-System
 A simple fruit ordering system using the MERN stack.
 
