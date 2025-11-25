@@ -63,6 +63,16 @@
    - Browser compatibility handling
    - Performance monitoring integration
 
+### Views/src/App.js
+- **Login Status Management** - Controls user login/logout states
+- **Google OAuth Integration** - Uses Google accounts for authentication
+- **Conditional Rendering** - Displays different interfaces based on login status
+
+### Views/src/index.js
+- **Application Startup** - Mounts React components to the DOM
+- **Root Component Rendering** - Initializes the entire application
+
+
 # Fruit-Order-System
 A simple fruit ordering system using the MERN stack.
 
