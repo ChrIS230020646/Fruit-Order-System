@@ -1,0 +1,39 @@
+# Render 部署配置文件
+# 這是一個可選的配置文件，用於自動化部署配置
+# 你也可以在 Render 網頁界面手動配置
+
+services:
+  # 後端服務
+  - type: web
+    name: fruit-order-backend
+    env: node
+    region: singapore  # 可選：singapore, oregon, frankfurt 等
+    plan: free  # 或 starter, standard 等付費方案
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ATLAS_URL
+        sync: false  # 需要在 Render 界面手動設置
+      - key: ALLOWED_ORIGINS
+        sync: false  # 需要在 Render 界面手動設置前端 URL
+    rootDir: js_server
+
+  # 前端靜態網站
+  - type: web
+    name: fruit-order-frontend
+    env: static
+    region: singapore
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false  # 需要在 Render 界面手動設置為後端 URL
+      - key: REACT_APP_GOOGLE_CLIENT_ID
+        sync: false  # 需要在 Render 界面手動設置
+    rootDir: Views
+
