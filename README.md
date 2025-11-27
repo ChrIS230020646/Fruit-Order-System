@@ -6,8 +6,9 @@
   ## Students names:
   - **Chung Yat Ming (12992583)**
   - **Tse Cheuk Wa (12958473)**
+  - **Man Ka Lok (13896396)**
   - **LIU Jiahong (13896612)**
-
+  
 # Project file intro:
 ## js_server
 ### js_server/server.js
@@ -83,16 +84,23 @@
 - **Application Startup** - Mounts React components to the DOM
 - **Root Component Rendering** - Initializes the entire application
 
+# The cloud-based server URL:
+```cmd
+https://fruit-order-system-1.onrender.com/
+```
 
-
-# run npm
-# 1.
+# User Flow:
+## run npm
+## 1.
+```cmd
 cd js_server && npm install && cd ../Views && npm install && cd .. && npm install concurrently
-# 2.
+```
+## 2.
+```cmd
 npx concurrently "cd js_server && node server.js" "cd Views && npm start"
+```
 
 # API Testing Commands (Production - Render)
-
 ## 1. GET - Get all fruits
 ```cmd
 curl -X GET https://fruit-order-system-1.onrender.com/fruits
@@ -116,7 +124,6 @@ curl -X DELETE https://fruit-order-system-1.onrender.com/fruits/8888
 ---
 
 # API Testing Commands (Local Development)
-
 ## 1. GET - Get all fruits
 ```cmd
 curl -X GET http://localhost:3020/fruits
