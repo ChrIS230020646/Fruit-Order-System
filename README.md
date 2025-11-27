@@ -6,6 +6,7 @@
   ## Students names:
   - **Chung Yat Ming (12992583)**
   - **Tse Cheuk Wa (12958473)**
+  - **Leung Yi Chen (13897565)**
   - **Man Ka Lok (13896396)**
   - **LIU Jiahong (13896612)**
   
