@@ -84,6 +84,8 @@
 - **Application Startup** - Mounts React components to the DOM
 - **Root Component Rendering** - Initializes the entire application
 
+
+
 # The cloud-based server URL:
 ```cmd
 https://fruit-order-system-1.onrender.com/
