@@ -7,7 +7,8 @@
   - **Chung Yat Ming (12992583)**
   - **Tse Cheuk Wa (12958473)**
   - **LIU Jiahong (13896612)**
-  
+
+# Project file intro:
 ## js_server
 ### js_server/server.js
 - **Express.js**: Node.js web framework
