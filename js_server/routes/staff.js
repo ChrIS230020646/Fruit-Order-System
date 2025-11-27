@@ -44,26 +44,23 @@ router.post('/staff/google-login', async (req, res) => {
             });
         }
 
-        // 檢查環境變量
         console.log('2. Checking Google Client ID:', process.env.GOOGLE_CLIENT_ID ? 'Present' : 'MISSING');
         if (!process.env.GOOGLE_CLIENT_ID) {
             return res.status(500).json({
                 success: false,
-                error: 'Google OAuth 配置錯誤：後端環境變數 GOOGLE_CLIENT_ID 未設置。請在 Render 環境變數中設置 GOOGLE_CLIENT_ID，並確保其值與 REACT_APP_GOOGLE_CLIENT_ID 相同。'
-            });
-        }
-        
-        // 檢查前端和後端 Client ID 是否一致
-        const frontendClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-        if (frontendClientId && frontendClientId !== process.env.GOOGLE_CLIENT_ID) {
-            console.error('❌ Client ID 不匹配：前端和後端使用了不同的 Client ID');
-            return res.status(500).json({
-                success: false,
-                error: 'Google OAuth 配置錯誤：前端和後端使用了不同的 Client ID。請確保 REACT_APP_GOOGLE_CLIENT_ID 和 GOOGLE_CLIENT_ID 的值完全相同。'
+                error: 'Google OAuth configuration error: The backend environment variable GOOGLE_CLIENT_ID is not set. Please set GOOGLE_CLIENT_ID in the Render environment variables and ensure that its value is the same as REACT_APP_GOOGLE_CLIENT_ID.'
             });
         }
 
-        // 驗證 Google token
+        const frontendClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+        if (frontendClientId && frontendClientId !== process.env.GOOGLE_CLIENT_ID) {
+            console.error('Client ID mismatch: The front-end and back-end are using different Client IDs.');
+            return res.status(500).json({
+                success: false,
+                error: 'Google OAuth configuration error: The front-end and back-end are using different Client IDs. Please ensure that the values ​​of REACT_APP_GOOGLE_CLIENT_ID and GOOGLE_CLIENT_ID are exactly the same.'
+            });
+        }
+
         console.log('3. Verifying Google token...');
         const ticket = await client.verifyIdToken({
             idToken: credential,
@@ -75,7 +72,6 @@ router.post('/staff/google-login', async (req, res) => {
 
         console.log('4. Google token verified for email:', email);
 
-        // 檢查用戶是否存在於資料庫中
         console.log('5. Checking database for user:', email);
         const userResult = await staffDB.findStaffByEmail(email);
 
@@ -91,7 +87,6 @@ router.post('/staff/google-login', async (req, res) => {
 
         const user = userResult.data;
 
-        // 設置 cookie（與普通登入保持一致）
         console.log('7. Setting cookie for user:', email);
         res.cookie('userEmail', email, {
             httpOnly: true,
@@ -113,8 +108,7 @@ router.post('/staff/google-login', async (req, res) => {
         console.error('Error name:', error.name);
         console.error('Error message:', error.message);
         console.error('Error stack:', error.stack);
-        
-        // 更具體的錯誤處理
+
         if (error.message.includes('Token used too late')) {
             return res.status(401).json({
                 success: false,
@@ -136,13 +130,12 @@ router.post('/staff/google-login', async (req, res) => {
             });
         }
 
-        // 處理 OAuth client not found 錯誤
         if (error.message.includes('invalid_client') || 
             error.message.includes('OAuth client was not found') ||
             error.message.includes('OAuth client not found')) {
             return res.status(400).json({
                 success: false,
-                error: 'Google OAuth Client ID 配置錯誤。請檢查環境變量 GOOGLE_CLIENT_ID 是否正確設置，並確認該 Client ID 在 Google Cloud Console 中存在。'
+                error: 'The Google OAuth Client ID is misconfigured. Please check that the environment variable GOOGLE_CLIENT_ID is set correctly and confirm that the Client ID exists in the Google Cloud Console.'
             });
         }
 

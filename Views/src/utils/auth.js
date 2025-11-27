@@ -16,8 +16,8 @@ class AuthService {
   static async login(email, password) {
     const result = await GetApi.postAPI('/staff/login', { email, password });
     
-    // GetApi.postAPI 不會拋出錯誤，而是返回 { success: false }
-    // 直接返回結果，保留後端的詳細錯誤訊息
+    // The `GetApi.postAPI` method will not throw an error; instead, it will return `{ success: false }`.
+    // Return the result directly, retaining detailed error messages from the backend.
     if (!result.success) {
       console.error('Login failed:', result.error);
       return result;
@@ -30,8 +30,8 @@ class AuthService {
   static async googleLogin(credential) {
     const result = await GetApi.postAPI('/staff/google-login', { credential });
     
-    // GetApi.postAPI 不會拋出錯誤，而是返回 { success: false }
-    // 直接返回結果，保留後端的詳細錯誤訊息
+    // The `GetApi.postAPI` method will not throw an error; instead, it will return `{ success: false }`.
+    // Return the result directly, retaining detailed error messages from the backend.
     if (!result.success) {
       console.error('Google login failed:', result.error);
       return result;
@@ -44,8 +44,8 @@ class AuthService {
   static async logout() {
     const result = await GetApi.postAPI('/auth/logout');
     
-    // GetApi.postAPI 不會拋出錯誤，而是返回 { success: false }
-    // 直接返回結果，保留後端的詳細錯誤訊息
+    // The `GetApi.postAPI` method will not throw an error; instead, it will return `{ success: false }`.
+    // Return the result directly, retaining detailed error messages from the backend.
     if (!result.success) {
       console.error('Logout failed:', result.error);
       return result;

@@ -288,21 +288,20 @@ function AppProviderBasic(props) {
 
   const handleNavigation = async (item) => {
     if (item.segment === 'logout') {
-      // 清除本地存儲
+
       getEmail.clearEmail();
-      
-      // 如果有傳入 onLogout prop，使用它（這會調用後端 API 並更新 App 狀態）
+
       if (typeof onLogout === 'function') {
         try {
           await onLogout();
-          // 登出成功後，App.js 會自動切換到登入頁面
+
         } catch (error) {
           console.error('Logout error:', error);
-          // 即使出錯也重定向到登入頁面
+
           window.location.href = '/';
         }
       } else {
-        // 如果沒有 onLogout prop，直接調用登出 API 並重定向
+
         try {
           await utils.logout();
           window.location.href = '/';
@@ -363,13 +362,11 @@ function LogoutPage() {
     const performLogout = async () => {
       try {
         await utils.logout();
-        // 等待一小段時間確保 cookie 清除完成
         setTimeout(() => {
           window.location.href = '/';
         }, 500);
       } catch (error) {
         console.error('Logout error:', error);
-        // 即使出錯也重定向
         window.location.href = '/';
       }
     };

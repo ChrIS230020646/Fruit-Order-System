@@ -85,7 +85,7 @@ class CityDB {
             if (existingCity) {
                 return {
                     success: false,
-                    error: '城市ID已存在'
+                    error: 'City ID already exists'
                 };
             }
 
@@ -94,7 +94,7 @@ class CityDB {
             
             return {
                 success: true,
-                message: '城市添加成功',
+                message: 'City added successfully',
                 data: savedCity
             };
         } catch (error) {
@@ -113,7 +113,7 @@ class CityDB {
             if (!existingCity) {
                 return {
                     success: false,
-                    error: '城市不存在'
+                    error: 'The city does not exist'
                 };
             }
 
@@ -130,7 +130,7 @@ class CityDB {
 
             return {
                 success: true,
-                message: '城市更新成功',
+                message: 'Urban renewal successful',
                 data: updatedCity
             };
         } catch (error) {

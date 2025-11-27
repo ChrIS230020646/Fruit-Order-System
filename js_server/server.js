@@ -24,12 +24,12 @@ app.use(cookieParser());
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     
-    // 允許的前端 URL（從環境變量讀取，支持多個用逗號分隔）
+    // Allowed frontend URLs (read from environment variables, multiple URLs can be separated by commas)
     const allowedOrigins = process.env.ALLOWED_ORIGINS 
         ? process.env.ALLOWED_ORIGINS.split(',').map(url => url.trim())
         : [];
     
-    // 本地開發環境
+    // Local development environment
     const isLocalDev = origin && (
         origin.includes('localhost') ||
         origin.includes('127.0.0.1') ||
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
         origin.includes('172.')
     );
     
-    // Render 環境或允許的域名
+    // Render Environment or permitted domain names
     const isAllowedOrigin = origin && (
         isLocalDev ||
         allowedOrigins.includes(origin) ||
@@ -63,52 +63,52 @@ app.use(express.json());
 // Connect MongoDB
 connectDB();
 
-// 檢查 Google OAuth 配置（如果使用）
+// Check your Google OAuth configuration (if using).
 if (process.env.REACT_APP_GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID) {
     const frontendClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const backendClientId = process.env.GOOGLE_CLIENT_ID;
     
-    console.log('🔍 Google OAuth 配置檢查:');
-    console.log('  - REACT_APP_GOOGLE_CLIENT_ID:', frontendClientId ? '已設置' : '❌ 未設置');
-    console.log('  - GOOGLE_CLIENT_ID:', backendClientId ? '已設置' : '❌ 未設置');
+    console.log('Google OAuth Configuration Check:');
+    console.log('REACT_APP_GOOGLE_CLIENT_ID:', frontendClientId ? 'Already set' : 'Not set');
+    console.log('GOOGLE_CLIENT_ID:', backendClientId ? 'Already set' : 'Not set');
     
     if (!frontendClientId || !backendClientId) {
-        console.warn('⚠️  警告：Google OAuth 環境變數不完整');
-        console.warn('⚠️  提示：必須同時設置 REACT_APP_GOOGLE_CLIENT_ID 和 GOOGLE_CLIENT_ID');
+        console.warn('Warning: Google OAuth environment variables are incomplete');
+        console.warn('Note: You must set both REACT_APP_GOOGLE_CLIENT_ID and GOOGLE_CLIENT_ID.');
     } else if (frontendClientId !== backendClientId) {
-        console.error('❌ 錯誤：REACT_APP_GOOGLE_CLIENT_ID 和 GOOGLE_CLIENT_ID 的值不一致！');
-        console.error('❌ 這會導致 Google OAuth 登入失敗（invalid_client 錯誤）');
-        console.error('❌ 請確保兩個環境變數的值完全相同');
+        console.error('Error: The values ​​of REACT_APP_GOOGLE_CLIENT_ID and GOOGLE_CLIENT_ID are inconsistent!');
+        console.error('This will cause Google OAuth login to fail (invalid_client error).');
+        console.error('Please ensure that the values ​​of the two environmental variables are exactly the same.');
     } else {
-        console.log('✅ Google OAuth 配置正確');
+        console.log('Google OAuth Correct configuration');
     }
 }
 
 // ----------------------
-// STATIC FILES (Frontend) - 必須在 API 路由之前
+// STATIC FILES (Frontend) - Must be done before API routing
 // ----------------------
-// 在生產環境中服務前端靜態文件（合併部署）
-// 檢查前端構建文件是否存在
+// Serve front-end static files in the production environment (merge deployment)
+// Check if the front-end build files exist.
 const frontendBuildPath = path.join(__dirname, '..', 'Views', 'build');
 const frontendExists = fs.existsSync(frontendBuildPath);
 const shouldServeFrontend = process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true';
 
-console.log('🔍 前端服務檢查:');
-console.log('  - 構建文件路徑:', frontendBuildPath);
-console.log('  - 文件是否存在:', frontendExists);
-console.log('  - NODE_ENV:', process.env.NODE_ENV);
-console.log('  - SERVE_FRONTEND:', process.env.SERVE_FRONTEND);
-console.log('  - 應該服務前端:', shouldServeFrontend);
+console.log('Front-end service checks:');
+console.log('Constructing file paths:', frontendBuildPath);
+console.log('Does the file exist:', frontendExists);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('SERVE_FRONTEND:', process.env.SERVE_FRONTEND);
+console.log('The service front end should be:', shouldServeFrontend);
 
 if (frontendExists && shouldServeFrontend) {
-    console.log('✅ 前端服務已啟用');
+    console.log('The front-end service is now enabled.');
     
-    // API 路由前綴列表（這些路由不應該返回前端頁面）
+    // List of API route prefixes (these routes should not return to the front-end page)
     const apiRoutes = [
         '/api/',
-        '/api/info',  // 添加新的 API 信息端點
+        '/api/info',  // Add a new API information endpoint
         '/server/',
-        '/auth/',     // 認證相關 API 路由
+        '/auth/',     // Authentication-related API routes
         '/cities',
         '/countries',
         '/staff',
@@ -119,53 +119,53 @@ if (frontendExists && shouldServeFrontend) {
         '/locations'
     ];
     
-    // 檢查是否為 API 路由
+    // Check if it is an API route
     const isApiRoute = (path) => {
-        // 檢查健康檢查端點
+        // Check health check points
         if (path === '/api/health') return true;
-        // 檢查是否以任何 API 路由前綴開頭
+        // Check if it starts with any API route prefix.
         return apiRoutes.some(route => path.startsWith(route));
     };
     
-    // 先處理根路徑，直接返回 index.html（避免被其他中間件攔截）
+    // First process the root path, then return index.html directly (to avoid being intercepted by other middleware).
     app.get('/', (req, res) => {
         const indexPath = path.join(frontendBuildPath, 'index.html');
-        console.log('📄 [根路徑] 返回前端頁面，路徑:', indexPath);
+        console.log('[Root Path] Returns to the front-end page, path:', indexPath);
         res.sendFile(indexPath, (err) => {
             if (err) {
-                console.error('❌ [根路徑] 錯誤：無法發送 index.html:', err);
+                console.error('[Root Path] Error: Unable to send index.html:', err);
                 res.status(500).send('Error loading application');
             } else {
-                console.log('✅ [根路徑] 成功發送 index.html');
+                console.log('[Root Path] successfully sent index.html');
             }
         });
     });
     
-    // 服務靜態文件（CSS, JS, images 等）
+    // Serve static files (CSS, JS, images, etc.)
     app.use(express.static(frontendBuildPath));
     
-    // React Router 支持：所有非 API 路由都返回 index.html
-    // 使用 app.use 作為中間件來處理所有請求，但讓 API 路由優先
+    // React Router supports returning index.html for all non-API routes.
+    // Use app.use as a middleware to handle all requests, but prioritize API routing.
     app.use((req, res, next) => {
-        // 如果是 API 路由，跳過（讓後面的 API 路由處理）
+        // If it's an API route, skip it (let subsequent API routes handle it).
         if (isApiRoute(req.path)) {
             return next();
         }
         
-        // 檢查文件是否存在（靜態資源）
+        // Check if the file exists (static resource).
         const filePath = path.join(frontendBuildPath, req.path);
         if (fs.existsSync(filePath) && !req.path.endsWith('.html')) {
-            // 如果是靜態資源文件，讓 express.static 處理
+            // For static resource files, let express.static handle them.
             return next();
         }
         
-        // 對於所有其他非 API 的 GET 請求，返回 React 應用的 index.html（支持 React Router）
+        // For all other non-API GET requests, return the React application's index.html (React Router supported).
         if (req.method === 'GET') {
             const indexPath = path.join(frontendBuildPath, 'index.html');
-            console.log('📄 [React Router] 返回前端頁面，路徑:', req.path);
+            console.log('[React Router] Returns to the front-end page via the following path.:', req.path);
             return res.sendFile(indexPath, (err) => {
                 if (err) {
-                    console.error('❌ [React Router] 錯誤：無法發送 index.html:', err);
+                    console.error('[React Router] Error: Unable to send index.html:', err);
                     res.status(500).send('Error loading application');
                 }
             });
@@ -174,18 +174,18 @@ if (frontendExists && shouldServeFrontend) {
         next();
     });
 } else {
-    // 如果前端構建文件不存在，記錄警告
+    // If the front-end build files are missing, log a warning.
     if (!frontendExists) {
-        console.warn('⚠️  警告：找不到前端構建文件，路徑:', frontendBuildPath);
-        console.warn('⚠️  提示：確保已運行構建腳本並設置 SERVE_FRONTEND=true');
+        console.warn('Warning: Front-end build files not found, path not found.:', frontendBuildPath);
+        console.warn('Note: Ensure the build script is running and configured. SERVE_FRONTEND=true');
     } else {
-        console.log('ℹ️  前端服務未啟用（設置 SERVE_FRONTEND=true 以啟用）');
+        console.log('The frontend service is not enabled (set SERVE_FRONTEND=true to enable it).');
     }
 }
 
 // Register API Routes
-// 注意：將 indexRoutes 改為 /api/info，避免攔截根路徑
-app.use('/api/info', indexRoutes);  // 原來的根路徑 API 現在在 /api/info
+// Note: Change indexRoutes to /api/info to avoid blocking the root path.
+app.use('/api/info', indexRoutes);  // The original root path API is now located at /api/info
 app.use('/', citiesDBRoutes);
 app.use('/', countriesDBRoutes);
 app.use('/', staffDBRoutes);
@@ -203,18 +203,18 @@ app.get('/api/health', (req, res) => {
 // ----------------------
 // SERVER STARTUP
 // ----------------------
-// 如果不是 Vercel 環境，則啟動服務器（適用於本地開發和 Render）
+// If it's not a Vercel environment, then start the server (applicable to local development and rendering).
 if (!process.env.VERCEL) {
     const PORT = process.env.PORT || 3020;
 
-    // Render 環境：直接監聽端口
+    // Rendering environment: Direct monitoring port
     if (process.env.RENDER || process.env.NODE_ENV === 'production') {
         app.listen(PORT, '0.0.0.0', () => {
             console.log(`Server running on port ${PORT}`);
             console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
         });
     } else {
-        // 本地開發環境：顯示本地和網絡 IP
+        // Local development environment: Displays local and network IP addresses.
         function getLocalIP() {
             const interfaces = os.networkInterfaces();
             for (const interfaceName in interfaces) {

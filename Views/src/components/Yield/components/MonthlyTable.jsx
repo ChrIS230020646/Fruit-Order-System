@@ -93,7 +93,7 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                   <TableCell sx={{ 
                     fontWeight: 600,
                     color: 'text.primary',
-                    backgroundColor: '#00000', // 固定黑色背景
+                    backgroundColor: '#00000',
                   }}>
                     {monthData.monthName}
                   </TableCell>
@@ -139,8 +139,7 @@ const MonthlyTable = ({ monthlyReport, fruitTypes, yearlyTotals }) => {
                   </TableCell>
                 </TableRow>
               ))}
-              
-              {/* Yearly Total row */}
+
               <TableRow sx={{ 
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               }}>

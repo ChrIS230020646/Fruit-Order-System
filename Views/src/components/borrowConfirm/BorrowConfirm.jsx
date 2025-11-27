@@ -79,7 +79,7 @@ export default function StickyHeadTable() {
         const result = await response.json();
         
         if (result.data && Array.isArray(result.data)) {
-          // 按ID升序排序
+
           const sortedData = result.data.sort((a, b) => {
             const idA = Number(a._id) || 0;
             const idB = Number(b._id) || 0;
@@ -130,8 +130,7 @@ export default function StickyHeadTable() {
         })
       );
     }
-    
-    // 按ID升序排序
+
     filtered = filtered.sort((a, b) => {
       const idA = Number(a._id) || 0;
       const idB = Number(b._id) || 0;
@@ -265,8 +264,7 @@ export default function StickyHeadTable() {
         </Typography>
       </Box>
       <Box sx={{ p: 3 }}>
-        
-        {/* 搜索栏 */}
+
         <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
           <TextField
             placeholder="Search borrow records..."

@@ -44,8 +44,7 @@ const AddFruit = () => {
         }
         const data = await response.json();
         console.log('Countries API response:', data);
-        
-        // 處理不同的響應格式
+
         let countriesList = [];
         if (data.data && Array.isArray(data.data)) {
           countriesList = data.data;

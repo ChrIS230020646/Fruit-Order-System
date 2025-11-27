@@ -1,54 +1,52 @@
 import { createTheme } from '@mui/material/styles';
 
-// 科技感配色方案
 const techColors = {
   primary: {
-    main: '#6366f1', // Indigo - 現代科技藍
+    main: '#6366f1',
     light: '#818cf8',
     dark: '#4f46e5',
     contrastText: '#ffffff',
   },
   secondary: {
-    main: '#8b5cf6', // Purple - 科技紫
+    main: '#8b5cf6',
     light: '#a78bfa',
     dark: '#7c3aed',
     contrastText: '#ffffff',
   },
   success: {
-    main: '#10b981', // Emerald - 成功綠
+    main: '#10b981',
     light: '#34d399',
     dark: '#059669',
     contrastText: '#ffffff',
   },
   warning: {
-    main: '#f59e0b', // Amber - 警告橙
+    main: '#f59e0b',
     light: '#fbbf24',
     dark: '#d97706',
     contrastText: '#ffffff',
   },
   error: {
-    main: '#ef4444', // Red - 錯誤紅
+    main: '#ef4444',
     light: '#f87171',
     dark: '#dc2626',
     contrastText: '#ffffff',
   },
   info: {
-    main: '#06b6d4', // Cyan - 資訊藍
+    main: '#06b6d4',
     light: '#22d3ee',
     dark: '#0891b2',
     contrastText: '#ffffff',
   },
   background: {
-    default: '#f8fafc', // 淺灰背景
+    default: '#f8fafc',
     paper: '#ffffff',
   },
   text: {
-    primary: '#1e293b', // 深灰文字
-    secondary: '#64748b', // 中灰文字
+    primary: '#1e293b',
+    secondary: '#64748b',
   },
 };
 
-// 創建主題
 const theme = createTheme({
   palette: {
     mode: 'light',

@@ -146,7 +146,6 @@ const EditStaff = ({ staffData, onBack, onSave }) => {
         overflow: 'hidden',
         boxShadow: '0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05)'
       }}>
-        {/* Gradient Title Section */}
         <Box sx={{
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           color: 'white',
@@ -159,8 +158,6 @@ const EditStaff = ({ staffData, onBack, onSave }) => {
             Update staff member information
           </Typography>
         </Box>
-
-        {/* Form Content */}
         <Box sx={{ p: 4 }}>
         <Card sx={{ 
           mb: 3,

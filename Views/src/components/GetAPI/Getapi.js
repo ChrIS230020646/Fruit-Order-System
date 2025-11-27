@@ -1,13 +1,9 @@
-
-
-
 function getApiBaseUrl() {
-  // 1. Cloud / Vercel
+
   if (process.env.REACT_APP_API_URL) {
     return process.env.REACT_APP_API_URL;
   }
 
-  // 2. Local development
   const currentHostname = window.location.hostname;
   if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
     return "http://localhost:3020";
@@ -63,13 +59,11 @@ async function callAPI(endpoint, options = {}) {
         if (!response.ok) {
             let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
             let errorData = null;
-            
-            // 嘗試解析 JSON 響應以獲取後端的詳細錯誤訊息
+
             try {
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
                     errorData = await response.json();
-                    // 優先使用後端返回的錯誤訊息
                     errorMessage = errorData.error || errorData.message || errorMessage;
                 } else {
                     const errorText = await response.text();
@@ -78,8 +72,7 @@ async function callAPI(endpoint, options = {}) {
             } catch (parseError) {
                 console.error('Failed to parse error response:', parseError);
             }
-            
-            // 返回錯誤結果，保留後端的詳細錯誤訊息
+
             return {
                 success: false,
                 error: errorMessage,
@@ -94,13 +87,12 @@ async function callAPI(endpoint, options = {}) {
         
     } catch (error) {
         console.error(` API file [${endpoint}]:`, error.message);
-        
-        // 處理網絡錯誤
+
         let userFriendlyError = 'Network request failed';
         if (error.message.includes('Failed to fetch')) {
-            userFriendlyError = `無法連接到伺服器 (${api || 'unknown'})`;
+            userFriendlyError = `Unable to connect to the server (${api || 'unknown'})`;
         } else if (error.message.includes('Network Error')) {
-            userFriendlyError = '網絡連接錯誤，請檢查您的網絡連接';
+            userFriendlyError = 'A network connection error has occurred. Please check your network connection.';
         } else {
             userFriendlyError = error.message;
         }

@@ -122,8 +122,7 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
         (row.status && row.status.toLowerCase().includes(term))
       );
     }
-    
-    // 按ID升序排序
+
     filtered = filtered.sort((a, b) => {
       const idA = Number(a._id) || 0;
       const idB = Number(b._id) || 0;
@@ -156,8 +155,7 @@ export default function DeliveriesTable({ onEditDelivery, onDeliveryDeleted }) {
           }
           return item;
         });
-        
-        // 按ID升序排序
+
         const sortedData = processedData.sort((a, b) => {
           const idA = Number(a._id) || 0;
           const idB = Number(b._id) || 0;

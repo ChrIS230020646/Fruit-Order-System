@@ -71,8 +71,7 @@ export default function StaffTable({ onEditStaff }) {
         } else {
           throw new Error('Invalid data format received from API');
         }
-        
-        // 按ID升序排序
+
         const sortedStaff = staffArray.sort((a, b) => {
           const idA = Number(a._id) || 0;
           const idB = Number(b._id) || 0;
@@ -92,7 +91,6 @@ export default function StaffTable({ onEditStaff }) {
     fetchStaffData();
   }, []);
 
-  // 搜索功能
   React.useEffect(() => {
     let filtered;
     if (searchTerm.trim() === '') {
@@ -103,23 +101,19 @@ export default function StaffTable({ onEditStaff }) {
         columns.some(column => {
           const value = staff[column.id];
           if (value == null) return false;
-          
-          // 跳过 actions 列
+
           if (column.id === 'actions') return false;
-          
-          // 特殊处理状态列
+
           if (column.id === 'status') {
             const statusText = value ? 'active' : 'inactive';
             return statusText.includes(lowercasedSearch);
           }
-          
-          // 普通文本搜索
+
           return value.toString().toLowerCase().includes(lowercasedSearch);
         })
       );
     }
-    
-    // 按ID升序排序
+
     filtered = filtered.sort((a, b) => {
       const idA = Number(a._id) || 0;
       const idB = Number(b._id) || 0;
@@ -127,7 +121,7 @@ export default function StaffTable({ onEditStaff }) {
     });
     
     setFilteredData(filtered);
-    setPage(0); // 重置到第一页
+    setPage(0);
   }, [searchTerm, staffData]);
 
   const handleChangePage = (event, newPage) => {

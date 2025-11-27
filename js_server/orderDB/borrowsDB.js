@@ -26,7 +26,7 @@ class BorrowsDB {
             if (!borrow) {
                 return {
                     success: false,
-                    error: '借还记录不存在'
+                    error: 'Loan and repayment records do not exist'
                 };
             }
             return {
@@ -184,7 +184,7 @@ class BorrowsDB {
 
             return {
                 success: true,
-                message: '借还记录更新成功',
+                message: 'Borrowing and repayment records updated successfully',
                 data: updatedBorrow
             };
         } catch (error) {

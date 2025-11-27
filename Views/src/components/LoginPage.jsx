@@ -100,20 +100,20 @@ const LoginPage = ({ onLoginSuccess }) => {
         console.log('Google login successful');
         onLoginSuccess();
       } else {
-        // 使用後端返回的詳細錯誤訊息
+        // Use the detailed error message returned by the backend.
         const errorMsg = result.error || 'Google login failed';
         
-        // 針對特定錯誤提供更友好的訊息
+        // Provide more user-friendly messages for specific errors.
         if (errorMsg.includes('not registered') || errorMsg.includes('User not registered')) {
-          setLoginError('此 Google 帳戶尚未註冊，請聯繫管理員');
+          setLoginError('This Google account has not been registered. Please contact the administrator.');
         } else if (errorMsg.includes('Client ID') || errorMsg.includes('OAuth client')) {
-          setLoginError('Google 登入配置錯誤，請聯繫管理員檢查設定');
+          setLoginError('Google login configuration error. Please contact the administrator to check the settings.');
         } else {
           setLoginError(errorMsg);
         }
       }
     } catch (error) {
-      setLoginError('Google 登入失敗，請稍後再試');
+      setLoginError('Google login failed, please try again later.');
       console.error('Google login error:', error);
     } finally {
       setGoogleLoading(false);
@@ -123,21 +123,20 @@ const LoginPage = ({ onLoginSuccess }) => {
   const handleGoogleError = (error) => {
     console.error('Google OAuth error:', error);
     
-    let errorMessage = 'Google 登入失敗，請稍後再試';
-    
-    // 處理不同的 Google OAuth 錯誤
+    let errorMessage = 'Google Login failed, please try again later.';
+
     if (error?.error === 'popup_closed_by_user') {
-      errorMessage = '登入已取消';
+      errorMessage = 'Login has been cancelled';
     } else if (error?.error === 'access_denied') {
-      errorMessage = '存取被拒絕，請檢查權限設定';
+      errorMessage = 'Access denied. Please check your permissions settings.';
     } else if (error?.error === 'idpiframe_initialization_failed' || 
                error?.error === 'popup_blocked') {
-      errorMessage = '彈出視窗被阻擋，請允許彈出視窗後重試';
+      errorMessage = 'The pop-up window is blocked. Please allow the pop-up window to appear and try again.';
     } else if (error?.error === 'invalid_client' || 
                error?.error === 'oauth_client_not_found') {
-      errorMessage = 'Google 登入配置錯誤：OAuth 客戶端未找到，請聯繫管理員檢查設定';
+      errorMessage = 'Google login configuration error: OAuth client not found. Please contact the administrator to check the settings.';
     } else if (error?.error) {
-      errorMessage = `Google 登入錯誤：${error.error}`;
+      errorMessage = `Google login error: ${error.error}`;
     }
     
     setLoginError(errorMessage);
@@ -276,7 +275,7 @@ const LoginPage = ({ onLoginSuccess }) => {
                 />
               ) : (
                 <Alert severity="warning" sx={{ width: '100%' }}>
-                  Google 登入功能未配置，請使用帳號密碼登入
+                  Google Sign-in is not configured. Please sign in with your username and password.
                 </Alert>
               )}
             </Box>

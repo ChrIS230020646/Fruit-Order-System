@@ -87,7 +87,7 @@ const EditFruit = ({ fruitData, onBack, onSave }) => {
         name: formData.name,
         originCountryId: parseInt(formData.originCountryId),
         price: parseFloat(formData.price),
-        imageURL: null // 直接設定為 null
+        imageURL: null
       };
 
       const response = await fetch(api, {
