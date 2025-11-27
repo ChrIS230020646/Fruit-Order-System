@@ -1,9 +1,9 @@
 # Project info:
-## Fruit-Order-System
-- **A simple full-stack fruit ordering application built with the MERN stack (MongoDB, React, Node.js)**
-### Group info:
-  ## Group no: 9
-  # Students names:
+- **Fruit-Order-System**
+  - A simple full-stack fruit ordering application built with the MERN stack (MongoDB, React, Node.js)
+# Group info:
+  - **Group no: 9**
+  ## Students names:
   - **Chung Yat Ming (12992583)**
   - **Tse Cheuk Wa (12958473)**
   - **LIU Jiahong (13896612)**
